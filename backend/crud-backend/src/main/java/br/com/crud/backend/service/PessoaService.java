@@ -1,5 +1,6 @@
 package br.com.crud.backend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,8 +19,45 @@ public class PessoaService {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
+	public List<Pessoa> find(String filter) {
+		switch (getModeSearch(filter)) {
+			case "name":
+				return findByName(getParamSearch(filter));
+
+			case "id":
+				Pessoa pessoaResult = findById(Integer.parseInt(getParamSearch(filter)));
+				List<Pessoa> listPessoa = new ArrayList<>();
+				listPessoa.add(pessoaResult);
+				return listPessoa;
+			
+			default:
+				return findAll();
+		}
+	}
+	
 	public List<Pessoa> findAll() {
 		return pessoaRepository.findAll();
 	}
+	
+	public Pessoa findById(Integer id) {
+		return pessoaRepository.findById(id);
+	}
+	
+	public List<Pessoa> findByName(String nameToFind) {
+		return pessoaRepository.findByName(nameToFind);
+	}
 
+	private String getModeSearch(String filterQuery) {
+		if (filterQuery != null) {
+			return filterQuery.substring(0, filterQuery.indexOf("="));	
+		}
+		return "default";
+	}
+	
+	private String getParamSearch(String filterQuery) {
+		if (filterQuery != null) {
+			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());	
+		}
+		return "";
+	}
 }
