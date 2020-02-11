@@ -1,0 +1,78 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 10
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      base-path: /mpi/v2
+      exposure:
+        include:
+        - info
+        - health
+        - asynchronousProcess
+        - file
+      path-mapping:
+        asynchronousProcess: asynchronous-process
+        file: files
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+      
+  h2:
+    console:
+      enabled: true
+    
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 10000
+      connectionTimeout: 250
+      maxLifetime: 600000
+    url: jdbc:h2:mem:db;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    sqlScriptEncoding: UTF-8
+  
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    generate-ddl: true
+    properties:
+      javax.persistence.schema-generation.create-source: metadata
+      javax.persistence.schema-generation.scripts.action: none
+      javax.persistence.schema-generation.scripts.create-target: create.sql
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.integration.envers.enabled: false
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+      hibernate.use_sql_comments: true
+
+
+  liquibase:
+    enabled: true
+    
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: debug
+    org.hibernate.SQL: info
+    org.hibernate.type: WARN
+    org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod: debug
+    .: error
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n)'
+
