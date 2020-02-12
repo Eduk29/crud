@@ -52,6 +52,10 @@ public class DocumentoService {
 		return documentoRepository.findByValue(valueToFind);
 	}
 	
+	public boolean save (Documento documento) {
+		return documentoRepository.save(documento);
+	}
+	
 	private String getModeSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(0, filterQuery.indexOf("="));	
