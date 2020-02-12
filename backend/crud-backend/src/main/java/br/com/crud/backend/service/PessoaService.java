@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.PessoaRepository;
 
-@Service // Expoe a classe como um serviço do spring
-@Transactional // Marca a classe com gerenciamento de transações (SPRING)
+@Service				// Expoe a classe como um serviço do spring
+@Transactional 			// Marca a classe com gerenciamento de transações (SPRING)
 public class PessoaService {
 
 	// Attributes

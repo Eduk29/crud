@@ -6,9 +6,8 @@ INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa, genero_pessoa) VALUES (SEQ_CRUD
 
 -- Documentos
 
---INSERT INTO CRUD_DOCUMENTO (id_documento, codigo_documento, descricao_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', 'CPF', '99988877766', 1);
---INSERT INTO CRUD_DOCUMENTO (id_documento, codigo_documento, descricao_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', 'RG', '998887776', 1);
---INSERT INTO CRUD_DOCUMENTO (id_documento, codigo_documento, descricao_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', 'CPF', '11122233344', 2);
---INSERT INTO CRUD_DOCUMENTO (id_documento, codigo_documento, descricao_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', 'RG', '112223334', 2);
---INSERT INTO CRUD_DOCUMENTO (id_documento, codigo_documento, descricao_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', 'CPF', '98765432199', 3);
---INSERT INTO CRUD_DOCUMENTO (id_documento, codigo_documento, descricao_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', 'RG', '987654321', 3);
+INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '99988877766', 1);
+INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', '875698875', 2);
+INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '42765998632', 2);
+INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', '325488836', 3);
+INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '99988877766', 3);
