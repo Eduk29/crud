@@ -6,7 +6,7 @@ INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa, genero_pessoa) VALUES (SEQ_CRUD
 
 -- Documentos
 
-INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '99988877766', 1);
+INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '99924577774', 1);
 INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', '875698875', 2);
 INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '42765998632', 2);
 INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', '325488836', 3);
