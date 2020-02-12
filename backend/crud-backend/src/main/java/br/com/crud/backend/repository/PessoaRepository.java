@@ -55,4 +55,9 @@ public class PessoaRepository {
 		
 		return typedQuery.getResultList();
 	}
+	
+	public boolean save(Pessoa pessoa) {
+		entityManager.persist(pessoa);
+		return true;
+	}
 }

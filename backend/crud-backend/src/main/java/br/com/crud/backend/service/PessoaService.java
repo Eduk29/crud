@@ -53,6 +53,10 @@ public class PessoaService {
 	public List<Pessoa> findByGender(String genderToFind) {
 		return pessoaRepository.findByGender(genderToFind);
 	}
+	
+	public boolean save(Pessoa pessoa) {
+		return pessoaRepository.save(pessoa);
+	}
 
 	private String getModeSearch(String filterQuery) {
 		if (filterQuery != null) {
