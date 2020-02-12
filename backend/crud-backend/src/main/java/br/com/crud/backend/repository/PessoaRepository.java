@@ -43,4 +43,16 @@ public class PessoaRepository {
 		
 		return typedQuery.getResultList();
 	}
+	
+	public List<Pessoa> findByGender(String genderToFind) {
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Pessoa> criteriaQuery = criteriaBuilder.createQuery(Pessoa.class);
+		Root<Pessoa> pessoa = criteriaQuery.from(Pessoa.class);
+		
+		criteriaQuery.where(criteriaBuilder.like(pessoa.<String>get("genero"), "%" + genderToFind + "%"));
+		TypedQuery<Pessoa> typedQuery = entityManager.createQuery(criteriaQuery);
+		
+		return typedQuery.getResultList();
+	}
 }

@@ -1,8 +1,8 @@
 -- Pessoas
 
-INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Jose Eduardo Trindade E Marques');
-INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Sarah De Villio');
-INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Marcelo Molina');
+INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa, genero_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Jose Eduardo Trindade E Marques', 'Masculino');
+INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa, genero_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Sarah De Villio', 'Feminino');
+INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa, genero_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Marcelo Molina', 'Masculino');
 
 -- Documentos
 

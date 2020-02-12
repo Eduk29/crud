@@ -23,6 +23,9 @@ public class PessoaService {
 		switch (getModeSearch(filter)) {
 			case "name":
 				return findByName(getParamSearch(filter));
+				
+			case "gender":
+				return findByGender(getParamSearch(filter));
 
 			case "id":
 				Pessoa pessoaResult = findById(Integer.parseInt(getParamSearch(filter)));
@@ -45,6 +48,10 @@ public class PessoaService {
 	
 	public List<Pessoa> findByName(String nameToFind) {
 		return pessoaRepository.findByName(nameToFind);
+	}
+	
+	public List<Pessoa> findByGender(String genderToFind) {
+		return pessoaRepository.findByGender(genderToFind);
 	}
 
 	private String getModeSearch(String filterQuery) {

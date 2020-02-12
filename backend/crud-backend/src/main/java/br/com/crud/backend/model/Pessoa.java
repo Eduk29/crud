@@ -24,6 +24,9 @@ public class Pessoa {
 		
 		@Column(name = "NOME_PESSOA", nullable = false, length = 255)
 		private String nome;
+		
+		@Column(name = "GENERO_PESSOA", nullable = false, length = 255)
+		private String genero;
 
 		public Integer getId() {
 			return id;
@@ -41,9 +44,17 @@ public class Pessoa {
 			this.nome = nome;
 		}
 		
+		public String getGenero() {
+			return genero;
+		}
+
+		public void setGenero(String genero) {
+			this.genero = genero;
+		}
+		
 		// Methods
 		@Override
 		public String toString() {
-			return "Pessoa [id=" + id + ", nome=" + nome + "]";
+			return "Pessoa [id=" + id + ", nome=" + nome + ", genero=" + genero + "]";
 		}
 }
