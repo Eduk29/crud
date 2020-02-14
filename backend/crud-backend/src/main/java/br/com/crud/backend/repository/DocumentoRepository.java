@@ -3,6 +3,7 @@ package br.com.crud.backend.repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -41,7 +42,7 @@ public class DocumentoRepository {
 		return typedQuery.getResultList();
 	}
 	
-	public Documento findByValue (String valueToFind) {
+	public Documento findByValue (String valueToFind) throws NoResultException {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Documento> criteriaQuery = criteriaBuilder.createQuery(Documento.class);
 		Root<Documento> documento = criteriaQuery.from(Documento.class);
