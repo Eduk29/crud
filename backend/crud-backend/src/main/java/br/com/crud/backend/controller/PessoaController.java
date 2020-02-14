@@ -34,7 +34,7 @@ public class PessoaController {
 	}
 	
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public boolean save(@RequestBody Pessoa pessoa) {
+	public Pessoa save(@RequestBody Pessoa pessoa) {
 		return pessoaService.save(pessoa);
 	}
 }

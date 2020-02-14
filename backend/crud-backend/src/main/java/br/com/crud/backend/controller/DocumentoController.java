@@ -34,7 +34,7 @@ public class DocumentoController {
 	}
 	
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public boolean save(@RequestBody Documento documento) {
+	public Documento save(@RequestBody Documento documento) {
 		return documentoService.save(documento);
 	}
 	

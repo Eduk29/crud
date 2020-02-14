@@ -70,7 +70,7 @@ public class DocumentoService {
 		}
 	}
 
-	public boolean save(Documento documento) {
+	public Documento save(Documento documento) {
 		return documentoRepository.save(documento);
 	}
 

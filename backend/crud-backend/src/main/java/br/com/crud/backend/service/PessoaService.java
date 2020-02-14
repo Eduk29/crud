@@ -57,22 +57,24 @@ public class PessoaService {
 		return pessoaRepository.findByGender(genderToFind);
 	}
 
-	public boolean save(Pessoa pessoa) {
-
-		if (pessoa.getDocumentos().size() > 0) {
-			List<Documento> documentoList = pessoa.getDocumentos();
-			for (int i = 0; i < documentoList.size(); i++) {
-				String documentoToFind = documentoList.get(i).getValorDocumento();
-				if (documentoService.findByValue(documentoToFind) == null) {
-					Pessoa pessoaDocumento = new Pessoa();
-					pessoa.setId(0);
-					documentoList.get(i).setPessoa(pessoaDocumento);
-					documentoService.save(documentoList.get(i));
-				}
-			}
+	public Pessoa save(Pessoa pessoa) {
+		List<Documento> documentoList = new ArrayList<Documento>();
+		documentoList = pessoa.getDocumentos();
+		
+		pessoa.setDocumentos(new ArrayList<Documento>());
+		
+		Integer idPessoa = pessoaRepository.save(pessoa).getId();
+		
+		for(int i = 0; i < documentoList.size(); i++) {
+			Pessoa documentoOwner = new Pessoa();
+			documentoOwner.setId(idPessoa);
+			documentoList.get(i).setPessoa(documentoOwner);
+			documentoList.set(i, documentoService.save(documentoList.get(i)));
 		}
-
-		return pessoaRepository.save(pessoa);
+		
+		pessoa.setDocumentos(documentoList);
+		
+		return pessoa;
 	}
 
 	private String getModeSearch(String filterQuery) {

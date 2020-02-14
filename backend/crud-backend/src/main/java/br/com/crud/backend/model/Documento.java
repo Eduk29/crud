@@ -12,6 +12,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -31,9 +33,10 @@ public class Documento {
 	@Column(name = "VALOR_DOCUMENTO", nullable = false, length = 255)
 	private String valorDocumento;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "ID_PESSOA")
 	@JsonIgnoreProperties(value = "documentos", allowSetters = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_PESSOA", nullable = false)
+	@JsonInclude(Include.NON_NULL)
 	private Pessoa pessoa;
 
 	// Getters & Setters

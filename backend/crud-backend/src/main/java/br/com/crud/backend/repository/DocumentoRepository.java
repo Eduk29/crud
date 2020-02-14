@@ -53,8 +53,8 @@ public class DocumentoRepository {
 		return typedQuery.getSingleResult();
 	}
 	
-	public boolean save (Documento documento) {
+	public Documento save (Documento documento) {
 		entityManager.persist(documento);
-		return true;
+		return documento;
 	}
 }
