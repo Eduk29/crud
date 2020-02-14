@@ -30,27 +30,20 @@ public class DocumentoService {
 				return findByType(getParamSearch(filter));
 	
 			case "value":
-	
-				try {
 					documentoResult = findByValue(getParamSearch(filter));
+					if (documentoResult == null) {
+						return new ArrayList<Documento>();
+					}
+					
 					listDocumento = new ArrayList<Documento>();
 					listDocumento.add(documentoResult);
 					return listDocumento;
-	
-				} catch (NoResultException e) {
-					return new ArrayList<Documento>();
-				}
-	
+					
 			case "id":
-				
-				try {
 					documentoResult = findById(Integer.parseInt(getParamSearch(filter)));
 					listDocumento = new ArrayList<>();
 					listDocumento.add(documentoResult);
 					return listDocumento;	
-				} catch (NoResultException e) {
-					return new ArrayList<Documento>();
-				}
 	
 			default:
 				return findAll();
@@ -70,7 +63,11 @@ public class DocumentoService {
 	}
 
 	public Documento findByValue(String valueToFind) {
-		return documentoRepository.findByValue(valueToFind);
+		try {
+			return documentoRepository.findByValue(valueToFind);	
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public boolean save(Documento documento) {

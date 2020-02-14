@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "crud_documento")
 public class Documento {
 
@@ -22,15 +22,15 @@ public class Documento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_generator")
 	@SequenceGenerator(name = "seq_generator", sequenceName = "seq_crud_documento", allocationSize = 1)
-	@Column(name="ID_DOCUMENTO", nullable = false, precision = 8, scale = 0)
+	@Column(name = "ID_DOCUMENTO", nullable = false, precision = 8, scale = 0)
 	private Integer id;
-	
-	@Column(name="TIPO_DOCUMENTO", nullable = false, length = 255)
+
+	@Column(name = "TIPO_DOCUMENTO", nullable = false, length = 255)
 	private String tipoDocumento;
-	
-	@Column(name="VALOR_DOCUMENTO", nullable = false, length = 255)
+
+	@Column(name = "VALOR_DOCUMENTO", nullable = false, length = 255)
 	private String valorDocumento;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "ID_PESSOA")
 	@JsonIgnoreProperties(value = "documentos", allowSetters = true)
@@ -67,5 +67,11 @@ public class Documento {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	// Methods
+	@Override
+	public String toString() {
+		return "Documento [id=" + id + ", type=" + tipoDocumento + ", value=" + valorDocumento + "]";
 	}
 }
