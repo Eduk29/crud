@@ -74,6 +74,11 @@ public class DocumentoService {
 		validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
 		return documentoRepository.save(documento);
 	}
+	
+	public Documento removeById(Integer id) {
+		Documento documentoToRemove = findById(id);
+		return documentoRepository.remove(documentoToRemove);
+	}
 
 	public void validateDocumentos(List<Documento> documentoList) throws DocumentoInvalidoException {
 		for (int i = 0; i < documentoList.size(); i++) {

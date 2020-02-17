@@ -57,4 +57,9 @@ public class DocumentoRepository {
 		entityManager.persist(documento);
 		return documento;
 	}
+	
+	public Documento remove (Documento documento) {
+		entityManager.remove(documento);
+		return documento;
+	}
 }
