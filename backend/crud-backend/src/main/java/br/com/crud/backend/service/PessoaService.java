@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.crud.backend.exception.DocumentoInvalidoException;
+import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.PessoaRepository;
@@ -57,24 +59,39 @@ public class PessoaService {
 		return pessoaRepository.findByGender(genderToFind);
 	}
 
-	public Pessoa save(Pessoa pessoa) {
+	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException {
 		List<Documento> documentoList = new ArrayList<Documento>();
 		documentoList = pessoa.getDocumentos();
 		
-		pessoa.setDocumentos(new ArrayList<Documento>());
-		
-		Integer idPessoa = pessoaRepository.save(pessoa).getId();
-		
-		for(int i = 0; i < documentoList.size(); i++) {
-			Pessoa documentoOwner = new Pessoa();
-			documentoOwner.setId(idPessoa);
-			documentoList.get(i).setPessoa(documentoOwner);
-			documentoList.set(i, documentoService.save(documentoList.get(i)));
+		try {
+			validateGenero(pessoa.getGenero());
+			documentoService.validateDocumentos(documentoList);
+			
+			pessoa.setDocumentos(new ArrayList<Documento>());
+			Integer idPessoa = pessoaRepository.save(pessoa).getId();
+
+			for (int i = 0; i < documentoList.size(); i++) {
+				Pessoa documentoOwner = new Pessoa();
+				documentoOwner.setId(idPessoa);
+				documentoList.get(i).setPessoa(documentoOwner);
+				documentoList.set(i, documentoService.save(documentoList.get(i)));
+			}
+
+			pessoa.setDocumentos(documentoList);
+			return pessoa;
+
+		} catch (DocumentoInvalidoException e) {
+			throw new DocumentoInvalidoException();
+		} catch (GeneroInvalidoException e ) {
+			throw new GeneroInvalidoException();
 		}
-		
-		pessoa.setDocumentos(documentoList);
-		
-		return pessoa;
+	}
+
+	private void validateGenero(String generoToValidate) throws GeneroInvalidoException {
+		if ((!generoToValidate.equals("Masculino") && !generoToValidate.equals("Feminino"))
+				|| generoToValidate.isEmpty()) {
+			throw new GeneroInvalidoException();
+		}
 	}
 
 	private String getModeSearch(String filterQuery) {

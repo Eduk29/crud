@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.DocumentoRepository;
@@ -26,28 +27,27 @@ public class DocumentoService {
 		List<Documento> listDocumento;
 
 		switch (getModeSearch(filter)) {
-			case "type":
-				return findByType(getParamSearch(filter));
-	
-			case "value":
-					documentoResult = findByValue(getParamSearch(filter));
-					if (documentoResult == null) {
-						return new ArrayList<Documento>();
-					}
-					
-					listDocumento = new ArrayList<Documento>();
-					listDocumento.add(documentoResult);
-					return listDocumento;
-					
-			case "id":
-					documentoResult = findById(Integer.parseInt(getParamSearch(filter)));
-					listDocumento = new ArrayList<>();
-					listDocumento.add(documentoResult);
-					return listDocumento;	
-	
-			default:
-				return findAll();
+		case "type":
+			return findByType(getParamSearch(filter));
+
+		case "value":
+			documentoResult = findByValue(getParamSearch(filter));
+			if (documentoResult == null) {
+				return new ArrayList<Documento>();
 			}
+			listDocumento = new ArrayList<Documento>();
+			listDocumento.add(documentoResult);
+			return listDocumento;
+
+		case "id":
+			documentoResult = findById(Integer.parseInt(getParamSearch(filter)));
+			listDocumento = new ArrayList<>();
+			listDocumento.add(documentoResult);
+			return listDocumento;
+
+		default:
+			return findAll();
+		}
 	}
 
 	public List<Documento> findAll() {
@@ -64,14 +64,33 @@ public class DocumentoService {
 
 	public Documento findByValue(String valueToFind) {
 		try {
-			return documentoRepository.findByValue(valueToFind);	
+			return documentoRepository.findByValue(valueToFind);
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
-	public Documento save(Documento documento) {
+	public Documento save(Documento documento) throws DocumentoInvalidoException {
+		validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
 		return documentoRepository.save(documento);
+	}
+
+	public void validateDocumentos(List<Documento> documentoList) throws DocumentoInvalidoException {
+		for (int i = 0; i < documentoList.size(); i++) {
+			validateDocumento(documentoList.get(i).getTipoDocumento(), documentoList.get(i).getValorDocumento());
+		}
+	}
+
+	private void validateDocumento(String type, String value) throws DocumentoInvalidoException {
+		if (type.equals("RG") && value.length() != 9) {
+			throw new DocumentoInvalidoException();
+		}
+		if (type.equals("CPF") && value.length() != 11) {
+			throw new DocumentoInvalidoException();
+		}
+		if (!type.equals("RG") && !type.equals("CPF")) {
+			throw new DocumentoInvalidoException();
+		}
 	}
 
 	private String getModeSearch(String filterQuery) {

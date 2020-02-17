@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.exception.DocumentoInvalidoException;
+import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.service.PessoaService;
 
@@ -19,22 +21,28 @@ import br.com.crud.backend.service.PessoaService;
 public class PessoaController {
 
 	// Attributes
-	@Autowired 				// Injeta o serviço declarado
+	@Autowired // Injeta o serviço declarado
 	private PessoaService pessoaService;
 
 	// API Methods
-	@GetMapping("")  		// Mapeia o endpoint / dentro do /pessoas
-	public List<Pessoa> find(@RequestParam(value="$filter", required = false) String filter) {
+	@GetMapping("") // Mapeia o endpoint / dentro do /pessoas
+	public List<Pessoa> find(@RequestParam(value = "$filter", required = false) String filter) {
 		return pessoaService.find(filter);
 	}
-	
-	@GetMapping("/{id}")	// Mapeia o endpoint /{id} dentro do /pessoas
+
+	@GetMapping("/{id}") // Mapeia o endpoint /{id} dentro do /pessoas
 	public Pessoa findById(@PathVariable("id") Integer id) {
 		return pessoaService.findById(id);
 	}
-	
+
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public Pessoa save(@RequestBody Pessoa pessoa) {
-		return pessoaService.save(pessoa);
+	public Pessoa save(@RequestBody Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException {
+		try {
+			return pessoaService.save(pessoa);
+		} catch (DocumentoInvalidoException e) {
+			throw new DocumentoInvalidoException("Documento Invalido! Favor Verificar");
+		} catch (GeneroInvalidoException e) {
+			throw new GeneroInvalidoException("Genero Invalido! Favor Verificar");
+		}
 	}
 }

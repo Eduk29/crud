@@ -29,7 +29,7 @@ public class Documento {
 
 	@Column(name = "TIPO_DOCUMENTO", nullable = false, length = 255)
 	private String tipoDocumento;
-
+	
 	@Column(name = "VALOR_DOCUMENTO", nullable = false, length = 255)
 	private String valorDocumento;
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.service.DocumentoService;
 
@@ -34,8 +35,12 @@ public class DocumentoController {
 	}
 	
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public Documento save(@RequestBody Documento documento) {
-		return documentoService.save(documento);
+	public Documento save(@RequestBody Documento documento) throws DocumentoInvalidoException {
+		try {
+			return documentoService.save(documento);	
+		} catch (DocumentoInvalidoException e) {
+			throw new DocumentoInvalidoException("Documento Invalido! Favor Verificar");
+		}
 	}
 	
 }
