@@ -79,6 +79,16 @@ public class DocumentoService {
 		Documento documentoToRemove = findById(id);
 		return documentoRepository.remove(documentoToRemove);
 	}
+	
+	public Documento updateById (Integer id, Documento documento) {
+		if (documento.getPessoa() == null) {
+			Documento documentoToUpdate = findById(id);
+			documento.setPessoa(documentoToUpdate.getPessoa());
+		}
+		
+		documento.setId(id);
+		return documentoRepository.update(documento);
+	}
 
 	public void validateDocumentos(List<Documento> documentoList) throws DocumentoInvalidoException {
 		for (int i = 0; i < documentoList.size(); i++) {

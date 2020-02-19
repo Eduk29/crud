@@ -62,4 +62,9 @@ public class DocumentoRepository {
 		entityManager.remove(documento);
 		return documento;
 	}
+	
+	public Documento update (Documento documento) {
+		entityManager.merge(documento);
+		return documento;
+	}
 }
