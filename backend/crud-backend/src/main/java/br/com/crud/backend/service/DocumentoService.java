@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.DocumentoInvalidoException;
+import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Pessoa;
+import br.com.crud.backend.model.TipoDocumento;
 import br.com.crud.backend.repository.DocumentoRepository;
+import br.com.crud.backend.repository.TipoDocumentoRepository;
 
 @Service
 @Transactional
@@ -21,14 +24,25 @@ public class DocumentoService {
 
 	@Autowired
 	private DocumentoRepository documentoRepository;
+	
+	@Autowired
+	private TipoDocumentoService tipoDocumentoService;
+	
+	@Autowired
+	private PessoaService pessoaService;
 
-	public List<Documento> find(String filter) {
+	public List<Documento> find(String filter) throws TipoDocumentoInvalidoException {
 		Documento documentoResult;
 		List<Documento> listDocumento;
 
 		switch (getModeSearch(filter)) {
 		case "type":
-			return findByType(getParamSearch(filter));
+			try {
+				return findByType(getParamSearch(filter));
+			} catch (TipoDocumentoInvalidoException e) {
+				// TODO Auto-generated catch block
+				throw new TipoDocumentoInvalidoException();
+			}
 
 		case "value":
 			documentoResult = findByValue(getParamSearch(filter));
@@ -58,8 +72,13 @@ public class DocumentoService {
 		return documentoRepository.findById(id);
 	}
 
-	public List<Documento> findByType(String typeToFind) {
-		return documentoRepository.findByType(typeToFind);
+	public List<Documento> findByType(String filterQuery) throws TipoDocumentoInvalidoException {
+		try {
+			String typeToFind = getParamSearch(filterQuery);
+			return tipoDocumentoService.findTipoDocumentoByType(typeToFind).getDocumentos();	
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoDocumentoInvalidoException();
+		}
 	}
 
 	public Documento findByValue(String valueToFind) {
@@ -71,6 +90,8 @@ public class DocumentoService {
 	}
 
 	public Documento save(Documento documento) throws DocumentoInvalidoException {
+		documento.setTipoDocumento(tipoDocumentoService.findTipoDocumentoById(documento.getTipoDocumento().getId()));
+		documento.setPessoa(pessoaService.findById(documento.getPessoa().getId()));
 		validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
 		return documentoRepository.save(documento);
 	}
@@ -96,14 +117,14 @@ public class DocumentoService {
 		}
 	}
 
-	private void validateDocumento(String type, String value) throws DocumentoInvalidoException {
-		if (type.equals("RG") && value.length() != 9) {
+	private void validateDocumento(TipoDocumento type, String value) throws DocumentoInvalidoException {
+		if (type.getChave().equals("RG") && value.length() != 9) {
 			throw new DocumentoInvalidoException();
 		}
-		if (type.equals("CPF") && value.length() != 11) {
+		if (type.getChave().equals("CPF") && value.length() != 11) {
 			throw new DocumentoInvalidoException();
 		}
-		if (!type.equals("RG") && !type.equals("CPF")) {
+		if (!type.getChave().equals("RG") && !type.getChave().equals("CPF")) {
 			throw new DocumentoInvalidoException();
 		}
 	}

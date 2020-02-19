@@ -26,12 +26,15 @@ public class Documento {
 	@SequenceGenerator(name = "seq_generator", sequenceName = "seq_crud_documento", allocationSize = 1)
 	@Column(name = "ID_DOCUMENTO", nullable = false, precision = 8, scale = 0)
 	private Integer id;
-
-	@Column(name = "TIPO_DOCUMENTO", nullable = false, length = 255)
-	private String tipoDocumento;
 	
 	@Column(name = "VALOR_DOCUMENTO", nullable = false, length = 255)
 	private String valorDocumento;
+	
+	@JsonIgnoreProperties(value = "documentos", allowSetters = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_TIPO_DOCUMENTO", nullable = false)
+	@JsonInclude(Include.NON_NULL)
+	private TipoDocumento tipoDocumento;
 
 	@JsonIgnoreProperties(value = "documentos", allowSetters = true)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -48,11 +51,11 @@ public class Documento {
 		this.id = id;
 	}
 
-	public String getTipoDocumento() {
+	public TipoDocumento getTipoDocumento() {
 		return tipoDocumento;
 	}
 
-	public void setTipoDocumento(String tipoDocumento) {
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
 

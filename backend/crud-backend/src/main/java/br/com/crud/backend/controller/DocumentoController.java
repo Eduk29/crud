@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.crud.backend.exception.DocumentoInvalidoException;
+import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.service.DocumentoService;
 
@@ -27,8 +28,12 @@ public class DocumentoController {
 	
 	// API Methods
 	@GetMapping("")
-	public List<Documento> find(@RequestParam(value="$filter", required = false) String filter) {
-		return documentoService.find(filter); 
+	public List<Documento> find(@RequestParam(value="$filter", required = false) String filter) throws TipoDocumentoInvalidoException {
+		try {
+			return documentoService.find(filter);
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoDocumentoInvalidoException("Tipo de documento inválido! Favor verificar.");
+		} 
 	}
 	
 	@GetMapping("/{id}")

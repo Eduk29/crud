@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
+import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.TipoDocumento;
 import br.com.crud.backend.service.TipoDocumentoService;
 
@@ -18,7 +21,12 @@ public class TipoDocumentoController {
 	private TipoDocumentoService tipoDocumentoService;
 	
 	@GetMapping(path = "")
-	public List<TipoDocumento> findAll() {
-		return tipoDocumentoService.findAll();
+	public List<TipoDocumento> find(@RequestParam(value="$filter", required = false) String filter) throws TipoDocumentoInvalidoException {
+		try {
+			return tipoDocumentoService.find(filter);	
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoDocumentoInvalidoException("Tipo de documento inválido! Favor verificar.");
+		}
+		
 	}
 }
