@@ -86,6 +86,11 @@ public class PessoaService {
 			throw new GeneroInvalidoException();
 		}
 	}
+	
+	public Pessoa removeById(Integer id) {
+		Pessoa pessoaToRemove = findById(id);
+		return pessoaRepository.remove(pessoaToRemove);
+	}
 
 	private void validateGenero(String generoToValidate) throws GeneroInvalidoException {
 		if ((!generoToValidate.equals("Masculino") && !generoToValidate.equals("Feminino"))

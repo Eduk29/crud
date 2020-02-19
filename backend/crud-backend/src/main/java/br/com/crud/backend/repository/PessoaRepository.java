@@ -62,4 +62,9 @@ public class PessoaRepository {
 		entityManager.persist(pessoa);
 		return pessoa;
 	}
+	
+	public Pessoa remove(Pessoa pessoa) {
+		entityManager.remove(pessoa);
+		return pessoa;
+	}
 }
