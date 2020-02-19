@@ -91,6 +91,15 @@ public class PessoaService {
 		Pessoa pessoaToRemove = findById(id);
 		return pessoaRepository.remove(pessoaToRemove);
 	}
+	
+	public Pessoa updateById (Integer id, Pessoa pessoa) {
+		pessoa.setId(id);
+		for (int i = 0; i < pessoa.getDocumentos().size(); i++) {
+			documentoService.updateById(pessoa.getDocumentos().get(i).getId(), pessoa.getDocumentos().get(i));
+		}
+		
+		return pessoaRepository.update(pessoa);
+	}
 
 	private void validateGenero(String generoToValidate) throws GeneroInvalidoException {
 		if ((!generoToValidate.equals("Masculino") && !generoToValidate.equals("Feminino"))

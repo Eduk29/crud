@@ -67,4 +67,9 @@ public class PessoaRepository {
 		entityManager.remove(pessoa);
 		return pessoa;
 	}
+	
+	public Pessoa update (Pessoa pessoa) {
+		entityManager.merge(pessoa);
+		return pessoa;
+	}
 }
