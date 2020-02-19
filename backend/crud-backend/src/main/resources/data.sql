@@ -11,3 +11,8 @@ INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pe
 INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '42765998632', 2);
 INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'RG', '325488836', 3);
 INSERT INTO CRUD_DOCUMENTO (id_documento, tipo_documento, valor_documento, id_pessoa) VALUES (SEQ_CRUD_DOCUMENTO.nextval, 'CPF', '99988877766', 3);
+
+-- Tipo de Documentos
+
+INSERT INTO CRUD_TIPO_DOCUMENTO (id_tipo_documento, valor_tipo_documento, chave_tipo_documento) VALUES (SEQ_CRUD_TIPO_DOCUMENTO.nextval, 'RG', 'RG');
+INSERT INTO CRUD_TIPO_DOCUMENTO (id_tipo_documento, valor_tipo_documento, chave_tipo_documento) VALUES (SEQ_CRUD_TIPO_DOCUMENTO.nextval, 'CPF', 'CPF');
