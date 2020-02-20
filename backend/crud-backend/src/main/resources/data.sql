@@ -25,6 +25,6 @@ INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemen
 
 -- Relacionamento Pessoa Endereco
 
-INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa_endereco, id_pessoa, id_endereco) VALUES (SEQ_CRUD_PESSOA_ENDERECO.nextval, 1, 1);
-INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa_endereco, id_pessoa, id_endereco) VALUES (SEQ_CRUD_PESSOA_ENDERECO.nextval, 2, 2);
-INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa_endereco, id_pessoa, id_endereco) VALUES (SEQ_CRUD_PESSOA_ENDERECO.nextval, 3, 3);
+INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa, id_endereco) VALUES (1, 1);
+INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa, id_endereco) VALUES (2, 2);
+INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa, id_endereco) VALUES (3, 3);

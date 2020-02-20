@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.model.Documento;
+import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.PessoaRepository;
 
@@ -23,6 +24,8 @@ public class PessoaService {
 	private PessoaRepository pessoaRepository;
 	@Autowired
 	private DocumentoService documentoService;
+	@Autowired
+	private EnderecoService enderecoService;
 
 	public List<Pessoa> find(String filter) {
 		switch (getModeSearch(filter)) {
@@ -61,23 +64,24 @@ public class PessoaService {
 
 	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException {
 		List<Documento> documentoList = new ArrayList<Documento>();
+		List<Endereco> enderecoList = new ArrayList<Endereco>();
+		
 		documentoList = pessoa.getDocumentos();
+		enderecoList = pessoa.getEnderecos();
 		
 		try {
 			validateGenero(pessoa.getGenero());
-			documentoService.validateDocumentos(documentoList);
 			
+			pessoa.setEnderecos(new ArrayList<Endereco>());
 			pessoa.setDocumentos(new ArrayList<Documento>());
 			Integer idPessoa = pessoaRepository.save(pessoa).getId();
-
-			for (int i = 0; i < documentoList.size(); i++) {
-				Pessoa documentoOwner = new Pessoa();
-				documentoOwner.setId(idPessoa);
-				documentoList.get(i).setPessoa(documentoOwner);
-				documentoList.set(i, documentoService.save(documentoList.get(i)));
-			}
+			
+			saveDocumentosPessoa(documentoList, idPessoa);
+			saveEnderecosPessoa(enderecoList, idPessoa);
+			
 
 			pessoa.setDocumentos(documentoList);
+			pessoa.setEnderecos(enderecoList);
 			return pessoa;
 
 		} catch (DocumentoInvalidoException e) {
@@ -99,6 +103,27 @@ public class PessoaService {
 		}
 		
 		return pessoaRepository.update(pessoa);
+	}
+	
+	private void saveDocumentosPessoa (List<Documento> documentosToSave, Integer idOwner) throws DocumentoInvalidoException {
+		documentoService.validateDocumentos(documentosToSave);
+		for (int i = 0; i < documentosToSave.size(); i++) {
+			Pessoa documentoOwner = new Pessoa();
+			documentoOwner.setId(idOwner);
+			documentosToSave.get(i).setPessoa(documentoOwner);
+			documentosToSave.set(i, documentoService.save(documentosToSave.get(i)));
+		}
+	}
+	
+	private void saveEnderecosPessoa (List<Endereco> enderecosToSave, Integer idOwner) {
+		for (int i = 0; i < enderecosToSave.size(); i++) {
+			Pessoa enderecoOwner = new Pessoa();
+			enderecoOwner.setId(idOwner);
+			List<Pessoa> enderecoOwnerList = new ArrayList<Pessoa>();
+			enderecoOwnerList.add(enderecoOwner);
+			enderecosToSave.get(i).setPessoas(enderecoOwnerList);
+			enderecosToSave.set(i, enderecoService.save(enderecosToSave.get(i)));
+		}
 	}
 
 	private void validateGenero(String generoToValidate) throws GeneroInvalidoException {

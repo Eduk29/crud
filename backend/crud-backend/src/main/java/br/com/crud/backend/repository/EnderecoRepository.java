@@ -21,4 +21,9 @@ public class EnderecoRepository {
 			return entityManager.createQuery("from Endereco").getResultList();
 		}
 		
+		public Endereco save(Endereco endereco) {
+			entityManager.persist(endereco);
+			return endereco;
+		}
+		
 }

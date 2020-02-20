@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -30,7 +32,8 @@ public class Endereco {
 	private Integer id;
 
 	@JsonIgnoreProperties(value = "enderecos", allowSetters = true)
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "enderecos")
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "crud_pessoa_endereco", joinColumns = { @JoinColumn(name = "id_endereco") }, inverseJoinColumns = { @JoinColumn(name = "id_pessoa") })
 	private List<Pessoa> pessoa;
 	
 	@Column(name = "CEP_ENDERECO", nullable = false, length = 255)
@@ -63,8 +66,8 @@ public class Endereco {
 		return pessoa;
 	}
 
-	public void setPessoas(List<Pessoa> pessoa) {
-		this.pessoa = pessoa;
+	public void setPessoas(List<Pessoa> pessoas) {
+		this.pessoa = pessoas;
 	}
 
 	public String getCep() {
@@ -118,6 +121,6 @@ public class Endereco {
 	// Methods
 	@Override
 	public String toString() {
-		return "Endereco [id=" + id + ", Rua:" + logradouro + ", " + numero + " - " + cidade + " - " + estado + "CEP: " + cep + "]";
+		return "Endereco [id=" + id + ", Rua:" + logradouro + ", " + numero + " - " + cidade + " - " + estado + " CEP: " + cep + "]";
 	}
 }

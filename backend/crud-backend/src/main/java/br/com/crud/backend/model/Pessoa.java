@@ -44,8 +44,7 @@ public class Pessoa {
 	private List<Documento> documentos;
 
 	@JsonIgnoreProperties(value = "pessoa", allowSetters = true)
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "crud_pessoa_endereco", joinColumns = { @JoinColumn(name = "id_pessoa") }, inverseJoinColumns = { @JoinColumn(name = "id_endereco") })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
 	private List<Endereco> enderecos;
 
 	// Getters & Setters
@@ -88,7 +87,7 @@ public class Pessoa {
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
-
+	
 	// Methods
 	@Override
 	public String toString() {
