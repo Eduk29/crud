@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -39,6 +42,11 @@ public class Pessoa {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
 	@JsonInclude(Include.NON_NULL)
 	private List<Documento> documentos;
+
+	@JsonIgnoreProperties(value = "pessoa", allowSetters = true)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "crud_pessoa_endereco", joinColumns = { @JoinColumn(name = "id_pessoa") }, inverseJoinColumns = { @JoinColumn(name = "id_endereco") })
+	private List<Endereco> enderecos;
 
 	// Getters & Setters
 	public Integer getId() {
@@ -73,9 +81,17 @@ public class Pessoa {
 		this.documentos = documentos;
 	}
 
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
 	// Methods
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", genero=" + genero + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", genero=" + genero + "documento= " + documentos + "endereco= " + enderecos + "]";
 	}
 }

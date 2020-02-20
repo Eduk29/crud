@@ -16,3 +16,15 @@ INSERT INTO CRUD_DOCUMENTO (id_documento, valor_documento, id_pessoa, id_tipo_do
 
 INSERT INTO CRUD_TIPO_DOCUMENTO (id_tipo_documento, valor_tipo_documento, chave_tipo_documento) VALUES (SEQ_CRUD_TIPO_DOCUMENTO.nextval, 'RG', 'RG');
 INSERT INTO CRUD_TIPO_DOCUMENTO (id_tipo_documento, valor_tipo_documento, chave_tipo_documento) VALUES (SEQ_CRUD_TIPO_DOCUMENTO.nextval, 'CPF', 'CPF');
+
+-- Enderecos
+
+INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '02080050', 'São Paulo', NULL, 'SP', 'Rua Mascote Feliz', '12');
+INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '02569180', 'São Paulo', NULL, 'SP', 'Rua Biritiba', '2562');
+INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '13258540', 'São Paulo', NULL, 'SP', 'Rua Luis Carlos Mejialos', '149');
+
+-- Relacionamento Pessoa Endereco
+
+INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa_endereco, id_pessoa, id_endereco) VALUES (SEQ_CRUD_PESSOA_ENDERECO.nextval, 1, 1);
+INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa_endereco, id_pessoa, id_endereco) VALUES (SEQ_CRUD_PESSOA_ENDERECO.nextval, 2, 2);
+INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa_endereco, id_pessoa, id_endereco) VALUES (SEQ_CRUD_PESSOA_ENDERECO.nextval, 3, 3);
