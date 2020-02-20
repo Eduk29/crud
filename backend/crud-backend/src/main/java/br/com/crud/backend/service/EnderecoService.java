@@ -21,9 +21,24 @@ public class EnderecoService {
 
 	@Autowired
 	private PessoaService pessoaService;
+	
+	public List<Endereco> find(String filter) {
+		System.out.println("filter: " + getModeSearch(filter));
+		switch(getModeSearch(filter)) {
+			case "CEP":
+				return findByCep(getParamSearch(filter));
+				
+			default:
+				return findAll();
+		}
+	}
 
 	public List<Endereco> findAll() {
 		return enderecoRepository.findAll();
+	}
+	
+	public List<Endereco> findByCep(String cepToFind) {
+		return enderecoRepository.findByCEP(cepToFind);
 	}
 
 	public Endereco save(Endereco endereco) {
@@ -40,5 +55,19 @@ public class EnderecoService {
 		}
 		
 		return pessoaEnderecoList;
+	}
+	
+	private String getModeSearch(String filterQuery) {
+		if (filterQuery != null) {
+			return filterQuery.substring(0, filterQuery.indexOf("="));
+		}
+		return "default";
+	}
+
+	private String getParamSearch(String filterQuery) {
+		if (filterQuery != null) {
+			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
+		}
+		return "";
 	}
 }
