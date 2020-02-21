@@ -11,7 +11,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.TipoDocumento;
 
 @Repository
@@ -26,7 +25,7 @@ public class TipoDocumentoRepository {
 		return entityManager.createQuery("from TipoDocumento").getResultList();
 	}
 	
-	public List<TipoDocumento> findyByType(String typeToFind) {
+	public TipoDocumento findyByType(String typeToFind) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<TipoDocumento> criteriaQuery = criteriaBuilder.createQuery(TipoDocumento.class);
 		Root<TipoDocumento> tipoDocumento = criteriaQuery.from(TipoDocumento.class);
@@ -34,7 +33,7 @@ public class TipoDocumentoRepository {
 		criteriaQuery.where(criteriaBuilder.equal(tipoDocumento.<String>get("chave"), typeToFind));
 		TypedQuery<TipoDocumento> typedQuery = entityManager.createQuery(criteriaQuery);
 		
-		return typedQuery.getResultList();
+		return typedQuery.getSingleResult();
 	}
 	
 	public TipoDocumento findTipoDocumentoById (Integer id) {

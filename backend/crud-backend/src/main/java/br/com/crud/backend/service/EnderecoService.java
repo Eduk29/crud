@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.CepInvalidoException;
-import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.EnderecoRepository;
+import br.com.crud.backend.util.ServiceUtils;
 
 @Service
 @Transactional
-public class EnderecoService implements ServiceUtilsInterface {
+public class EnderecoService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
@@ -26,21 +26,21 @@ public class EnderecoService implements ServiceUtilsInterface {
 	
 	public List<Endereco> find(String filter) throws CepInvalidoException {
 		if (filter != null) {
-			removeDoubleQuotes(filter);
+			ServiceUtils.removeDoubleQuotes(filter);
 		}
 		
-		switch(getModeSearch(filter)) {
+		switch(ServiceUtils.getModeSearch(filter)) {
 			case "CEP":
-				return findByCep(getParamSearch(filter));
+				return findByCep(ServiceUtils.getParamSearch(filter));
 				
 			case "Estado":
-				return findByEstado(getParamSearch(filter));
+				return findByEstado(ServiceUtils.getParamSearch(filter));
 				
 			case "Cidade":
-				return findByCidade(getParamSearch(filter));
+				return findByCidade(ServiceUtils.getParamSearch(filter));
 				
 			case "Id":
-				Endereco endereco = findById(Integer.parseInt(getParamSearch(filter)));
+				Endereco endereco = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
 				List<Endereco> enderecoList = new ArrayList<Endereco>();
 				enderecoList.add(endereco);				
 				
@@ -99,21 +99,5 @@ public class EnderecoService implements ServiceUtilsInterface {
 		}
 	}
 	
-	public void removeDoubleQuotes (String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
-	}
-	
-	public String getModeSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(0, filterQuery.indexOf("="));
-		}
-		return "default";
-	}
 
-	public String getParamSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
-		}
-		return "";
-	}
 }

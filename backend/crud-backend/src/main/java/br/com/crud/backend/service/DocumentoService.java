@@ -1,7 +1,6 @@
 package br.com.crud.backend.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -12,16 +11,14 @@ import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
-import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.Documento;
-import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.model.TipoDocumento;
 import br.com.crud.backend.repository.DocumentoRepository;
-import br.com.crud.backend.repository.TipoDocumentoRepository;
+import br.com.crud.backend.util.ServiceUtils;
 
 @Service
 @Transactional
-public class DocumentoService implements ServiceUtilsInterface {
+public class DocumentoService  {
 
 	@Autowired
 	private DocumentoRepository documentoRepository;
@@ -37,20 +34,20 @@ public class DocumentoService implements ServiceUtilsInterface {
 		List<Documento> listDocumento;
 		
 		if (filter != null) {
-			removeDoubleQuotes(filter);
+			ServiceUtils.removeDoubleQuotes(filter);
 		}
 
-		switch (getModeSearch(filter)) {
+		switch (ServiceUtils.getModeSearch(filter)) {
 		case "type":
 			try {
-				return findByType(getParamSearch(filter));
+				return findByType(ServiceUtils.getParamSearch(filter));
 			} catch (TipoDocumentoInvalidoException e) {
 				// TODO Auto-generated catch block
 				throw new TipoDocumentoInvalidoException();
 			}
 
 		case "value":
-			documentoResult = findByValue(getParamSearch(filter));
+			documentoResult = findByValue(ServiceUtils.getParamSearch(filter));
 			if (documentoResult == null) {
 				return new ArrayList<Documento>();
 			}
@@ -59,7 +56,7 @@ public class DocumentoService implements ServiceUtilsInterface {
 			return listDocumento;
 
 		case "id":
-			documentoResult = findById(Integer.parseInt(getParamSearch(filter)));
+			documentoResult = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
 			listDocumento = new ArrayList<>();
 			listDocumento.add(documentoResult);
 			return listDocumento;
@@ -79,7 +76,7 @@ public class DocumentoService implements ServiceUtilsInterface {
 
 	public List<Documento> findByType(String filterQuery) throws TipoDocumentoInvalidoException {
 		try {
-			String typeToFind = getParamSearch(filterQuery);
+			String typeToFind = ServiceUtils.getParamSearch(filterQuery);
 			return tipoDocumentoService.findTipoDocumentoByType(typeToFind).getDocumentos();
 		} catch (TipoDocumentoInvalidoException e) {
 			throw new TipoDocumentoInvalidoException();
@@ -134,21 +131,5 @@ public class DocumentoService implements ServiceUtilsInterface {
 		}
 	}
 
-	public String getModeSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(0, filterQuery.indexOf("="));
-		}
-		return "default";
-	}
 
-	public String getParamSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
-		}
-		return "";
-	}
-
-	public void removeDoubleQuotes(String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
-	}
 }

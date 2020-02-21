@@ -1,8 +1,25 @@
-package br.com.crud.backend.interfaces;
+package br.com.crud.backend.util;
 
-public interface ServiceUtilsInterface {
+public class ServiceUtils {
 	
-	public String getModeSearch(String filterQuery);
-	public String getParamSearch(String filterQuery);
-	public void removeDoubleQuotes (String stringWithDoubleQuotes);
+
+	public static String getModeSearch(String filterQuery) {
+		if (filterQuery != null) {
+			return filterQuery.substring(0, filterQuery.indexOf("="));
+		}
+		return "default";
+	}
+
+	public static String getParamSearch(String filterQuery) {
+		if (filterQuery != null) {
+			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
+		}
+		return "";
+	}
+
+	public static void removeDoubleQuotes(String stringWithDoubleQuotes) {
+		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
+	}
+	
+	
 }

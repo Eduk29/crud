@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
-import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.PessoaRepository;
+import br.com.crud.backend.util.ServiceUtils;
 
 @Service // Expoe a classe como um serviço do spring
 @Transactional // Marca a classe com gerenciamento de transações (SPRING)
-public class PessoaService implements ServiceUtilsInterface {
+public class PessoaService {
 
 	// Attributes
 	@Autowired
@@ -31,18 +31,20 @@ public class PessoaService implements ServiceUtilsInterface {
 
 	public List<Pessoa> find(String filter) {
 		if (filter != null) {
-			removeDoubleQuotes(filter);
+			ServiceUtils.removeDoubleQuotes(filter);
 		}
 		
-		switch (getModeSearch(filter)) {
+		String parameters = ServiceUtils.getParamSearch(filter);
+		
+		switch (ServiceUtils.getModeSearch(filter)) {
 		case "name":
-			return findByName(getParamSearch(filter));
+			return findByName(parameters);
 
 		case "gender":
-			return findByGender(getParamSearch(filter));
+			return findByGender(parameters);
 
 		case "id":
-			Pessoa pessoaResult = findById(Integer.parseInt(getParamSearch(filter)));
+			Pessoa pessoaResult = findById(Integer.parseInt(parameters));
 			List<Pessoa> listPessoa = new ArrayList<>();
 			listPessoa.add(pessoaResult);
 			return listPessoa;
@@ -141,21 +143,4 @@ public class PessoaService implements ServiceUtilsInterface {
 		}
 	}
 
-	public String getModeSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(0, filterQuery.indexOf("="));
-		}
-		return "default";
-	}
-
-	public String getParamSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
-		}
-		return "";
-	}
-	
-	public void removeDoubleQuotes(String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
-	}
 }
