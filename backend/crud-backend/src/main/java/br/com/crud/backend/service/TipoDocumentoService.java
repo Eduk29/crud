@@ -9,18 +9,23 @@ import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
+import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.TipoDocumento;
 import br.com.crud.backend.repository.TipoDocumentoRepository;
 
 @Service
 @Transactional
-public class TipoDocumentoService {
+public class TipoDocumentoService implements ServiceUtilsInterface {
 
 	// Attribute
 	@Autowired
 	private TipoDocumentoRepository tipoDocumentoRepository;
 	
 	public List<TipoDocumento> find(String filter) throws TipoDocumentoInvalidoException {
+		if (filter != null) {
+			removeDoubleQuotes(filter);
+		}
+		
 		switch(getModeSearch(filter)) {
 			case "type":
 			try {
@@ -66,17 +71,21 @@ public class TipoDocumentoService {
 		}
 	}
 	
-	private String getModeSearch(String filterQuery) {
+	public String getModeSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(0, filterQuery.indexOf("="));
 		}
 		return "default";
 	}
 
-	private String getParamSearch(String filterQuery) {
+	public String getParamSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
 		}
 		return "";
+	}
+	
+	public void removeDoubleQuotes(String stringWithDoubleQuotes) {
+		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
 	}
 }

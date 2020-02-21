@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.CepInvalidoException;
+import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.EnderecoRepository;
 
 @Service
 @Transactional
-public class EnderecoService {
+public class EnderecoService implements ServiceUtilsInterface {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
@@ -25,7 +26,7 @@ public class EnderecoService {
 	
 	public List<Endereco> find(String filter) throws CepInvalidoException {
 		if (filter != null) {
-			filter = filter.replace("\"", "");	
+			removeDoubleQuotes(filter);
 		}
 		
 		switch(getModeSearch(filter)) {
@@ -98,14 +99,18 @@ public class EnderecoService {
 		}
 	}
 	
-	private String getModeSearch(String filterQuery) {
+	public void removeDoubleQuotes (String stringWithDoubleQuotes) {
+		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
+	}
+	
+	public String getModeSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(0, filterQuery.indexOf("="));
 		}
 		return "default";
 	}
 
-	private String getParamSearch(String filterQuery) {
+	public String getParamSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
 		}

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
+import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.model.TipoDocumento;
@@ -20,20 +21,24 @@ import br.com.crud.backend.repository.TipoDocumentoRepository;
 
 @Service
 @Transactional
-public class DocumentoService {
+public class DocumentoService implements ServiceUtilsInterface {
 
 	@Autowired
 	private DocumentoRepository documentoRepository;
-	
+
 	@Autowired
 	private TipoDocumentoService tipoDocumentoService;
-	
+
 	@Autowired
 	private PessoaService pessoaService;
 
 	public List<Documento> find(String filter) throws TipoDocumentoInvalidoException {
 		Documento documentoResult;
 		List<Documento> listDocumento;
+		
+		if (filter != null) {
+			removeDoubleQuotes(filter);
+		}
 
 		switch (getModeSearch(filter)) {
 		case "type":
@@ -75,7 +80,7 @@ public class DocumentoService {
 	public List<Documento> findByType(String filterQuery) throws TipoDocumentoInvalidoException {
 		try {
 			String typeToFind = getParamSearch(filterQuery);
-			return tipoDocumentoService.findTipoDocumentoByType(typeToFind).getDocumentos();	
+			return tipoDocumentoService.findTipoDocumentoByType(typeToFind).getDocumentos();
 		} catch (TipoDocumentoInvalidoException e) {
 			throw new TipoDocumentoInvalidoException();
 		}
@@ -95,18 +100,18 @@ public class DocumentoService {
 		validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
 		return documentoRepository.save(documento);
 	}
-	
+
 	public Documento removeById(Integer id) {
 		Documento documentoToRemove = findById(id);
 		return documentoRepository.remove(documentoToRemove);
 	}
-	
-	public Documento updateById (Integer id, Documento documento) {
+
+	public Documento updateById(Integer id, Documento documento) {
 		if (documento.getPessoa() == null) {
 			Documento documentoToUpdate = findById(id);
 			documento.setPessoa(documentoToUpdate.getPessoa());
 		}
-		
+
 		documento.setId(id);
 		return documentoRepository.update(documento);
 	}
@@ -129,17 +134,21 @@ public class DocumentoService {
 		}
 	}
 
-	private String getModeSearch(String filterQuery) {
+	public String getModeSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(0, filterQuery.indexOf("="));
 		}
 		return "default";
 	}
 
-	private String getParamSearch(String filterQuery) {
+	public String getParamSearch(String filterQuery) {
 		if (filterQuery != null) {
 			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
 		}
 		return "";
+	}
+
+	public void removeDoubleQuotes(String stringWithDoubleQuotes) {
+		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
 	}
 }
