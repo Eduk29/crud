@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.model.Pessoa;
@@ -38,13 +39,15 @@ public class PessoaController {
 	}
 
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public Pessoa save(@RequestBody Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException {
+	public Pessoa save(@RequestBody Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException {
 		try {
 			return pessoaService.save(pessoa);
 		} catch (DocumentoInvalidoException e) {
 			throw new DocumentoInvalidoException("Documento Invalido! Favor Verificar");
 		} catch (GeneroInvalidoException e) {
 			throw new GeneroInvalidoException("Genero Invalido! Favor Verificar");
+		} catch (CepInvalidoException e) {
+			throw new CepInvalidoException("Cep Inválido! Favor Verificar");
 		}
 	}
 	

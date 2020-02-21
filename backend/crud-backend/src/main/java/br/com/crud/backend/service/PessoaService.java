@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.model.Documento;
@@ -62,7 +63,7 @@ public class PessoaService {
 		return pessoaRepository.findByGender(genderToFind);
 	}
 
-	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException {
+	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException {
 		List<Documento> documentoList = new ArrayList<Documento>();
 		List<Endereco> enderecoList = new ArrayList<Endereco>();
 		
@@ -86,8 +87,10 @@ public class PessoaService {
 
 		} catch (DocumentoInvalidoException e) {
 			throw new DocumentoInvalidoException();
-		} catch (GeneroInvalidoException e ) {
+		} catch (GeneroInvalidoException e) {
 			throw new GeneroInvalidoException();
+		} catch (CepInvalidoException e) {
+			throw new CepInvalidoException();
 		}
 	}
 	
@@ -115,7 +118,7 @@ public class PessoaService {
 		}
 	}
 	
-	private void saveEnderecosPessoa (List<Endereco> enderecosToSave, Integer idOwner) {
+	private void saveEnderecosPessoa (List<Endereco> enderecosToSave, Integer idOwner) throws CepInvalidoException {
 		for (int i = 0; i < enderecosToSave.size(); i++) {
 			Pessoa enderecoOwner = new Pessoa();
 			enderecoOwner.setId(idOwner);
