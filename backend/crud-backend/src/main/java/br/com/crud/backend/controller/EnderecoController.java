@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.service.EnderecoService;
@@ -25,8 +26,12 @@ public class EnderecoController {
 	
 	// Methods
 	@GetMapping("")
-	public List<Endereco> findAll(@RequestParam(value="$filter", required = false) String filter) {
-		return enderecoService.find(filter);
+	public List<Endereco> findAll(@RequestParam(value="$filter", required = false) String filter) throws CepInvalidoException {
+		try {
+			return enderecoService.find(filter);
+		} catch (CepInvalidoException e) {
+			throw new CepInvalidoException("Cep inválido! Favor verificar!");
+		}
 	}
 	
 	@GetMapping("/{id}")
@@ -35,7 +40,11 @@ public class EnderecoController {
 	}
 	
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public Endereco save (@RequestBody Endereco endereco) {
-		return enderecoService.save(endereco);
+	public Endereco save (@RequestBody Endereco endereco) throws CepInvalidoException {
+		try {
+			return enderecoService.save(endereco);
+		} catch (CepInvalidoException e) {
+			throw new CepInvalidoException("Cep inválido! Favor verificar!");
+		}
 	}
 }

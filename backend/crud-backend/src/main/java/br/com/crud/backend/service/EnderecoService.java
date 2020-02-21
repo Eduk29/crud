@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.EnderecoRepository;
@@ -22,7 +23,7 @@ public class EnderecoService {
 	@Autowired
 	private PessoaService pessoaService;
 	
-	public List<Endereco> find(String filter) {
+	public List<Endereco> find(String filter) throws CepInvalidoException {
 		if (filter != null) {
 			filter = filter.replace("\"", "");	
 		}
@@ -57,8 +58,13 @@ public class EnderecoService {
 		return enderecoRepository.findById(id);
 	}
 	
-	public List<Endereco> findByCep(String cepToFind) {
-		return enderecoRepository.findByCEP(cepToFind);
+	public List<Endereco> findByCep(String cepToFind) throws CepInvalidoException {
+		try {
+			validateCep(cepToFind);
+			return enderecoRepository.findByCEP(cepToFind);
+		} catch (CepInvalidoException e) {
+			throw new CepInvalidoException();
+		}
 	}
 	
 	public List<Endereco> findByEstado(String estadoToFind){
@@ -69,7 +75,8 @@ public class EnderecoService {
 		return enderecoRepository.findByCidade(cidadeToFind);
 	}
 
-	public Endereco save(Endereco endereco) {
+	public Endereco save(Endereco endereco) throws CepInvalidoException {
+		validateCep(endereco.getCep());
 		endereco.setPessoas(findPessoa(endereco.getPessoa()));
 		return enderecoRepository.save(endereco);
 	}
@@ -83,6 +90,12 @@ public class EnderecoService {
 		}
 		
 		return pessoaEnderecoList;
+	}
+	
+	private void validateCep (String cep) throws CepInvalidoException {
+		if (cep.length() != 8) {
+			throw new CepInvalidoException();
+		}
 	}
 	
 	private String getModeSearch(String filterQuery) {
