@@ -31,6 +31,10 @@ public class EnderecoRepository {
 			return endereco;
 		}
 		
+		public Endereco findById(Integer id) {
+			return entityManager.find(Endereco.class, id);
+		}
+		
 		public List<Endereco> findByCEP (String cepToFind) {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Endereco> criteriaQuery = criteriaBuilder.createQuery(Endereco.class);
@@ -42,4 +46,25 @@ public class EnderecoRepository {
 			return typedQuery.getResultList();
 		}
 		
+		public List<Endereco> findByEstado (String estadoToFind) {
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Endereco> criteriaQuery = criteriaBuilder.createQuery(Endereco.class);
+			Root<Endereco> endereco = criteriaQuery.from(Endereco.class);
+			
+			criteriaQuery.where(criteriaBuilder.like(endereco.<String>get("estado"), "%" + estadoToFind + "%"));
+			TypedQuery<Endereco> typedQuery = entityManager.createQuery(criteriaQuery);
+			
+			return typedQuery.getResultList();
+		}
+		
+		public List<Endereco> findByCidade (String cidadeToFind) {
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Endereco> criteriaQuery = criteriaBuilder.createQuery(Endereco.class);
+			Root<Endereco> endereco = criteriaQuery.from(Endereco.class);
+			
+			criteriaQuery.where(criteriaBuilder.like(endereco.<String>get("cidade"), "%" + cidadeToFind + "%"));
+			TypedQuery<Endereco> typedQuery = entityManager.createQuery(criteriaQuery);
+			
+			return typedQuery.getResultList();
+		}
 }
