@@ -1,3 +1,5 @@
+SET NAMES utf8;
+
 -- Pessoas
 
 INSERT INTO CRUD_PESSOA (id_pessoa, nome_pessoa, genero_pessoa) VALUES (SEQ_CRUD_PESSOA.nextval, 'Jose Eduardo Trindade E Marques', 'Masculino');
@@ -19,9 +21,9 @@ INSERT INTO CRUD_TIPO_DOCUMENTO (id_tipo_documento, valor_tipo_documento, chave_
 
 -- Enderecos
 
-INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '02080050', 'São Paulo', NULL, 'SP', 'Rua Mascote Feliz', '12');
-INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '02569180', 'São Paulo', NULL, 'SP', 'Rua Biritiba', '2562');
-INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '13258540', 'São Paulo', NULL, 'SP', 'Rua Luis Carlos Mejialos', '149');
+INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '02080050', 'Sao Paulo', NULL, 'SP', 'Rua Mascote Feliz', '12');
+INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '02569180', 'Sao Paulo', NULL, 'SP', 'Rua Biritiba', '2562');
+INSERT INTO CRUD_ENDERECO (id_endereco, cep_endereco, cidade_endereco, complemento_endereco, estado_endereco, logradouro_endereco, numero_endereco) VALUES (SEQ_CRUD_ENDERECO.nextval, '13258540', 'Sao Paulo', NULL, 'SP', 'Rua Luis Carlos Mejialos', '149');
 
 -- Relacionamento Pessoa Endereco
 
