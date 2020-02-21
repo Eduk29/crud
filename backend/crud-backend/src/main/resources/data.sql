@@ -33,7 +33,7 @@ INSERT INTO CRUD_PESSOA_ENDERECO (id_pessoa, id_endereco) VALUES (3, 3);
 
 -- Contato
 
-INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 1, 1, '11979830357', true);
-INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 1, 2, '1122366944', false);
-INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 2, 1, '11954782354', true);
-INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 3, 1, '11956332569', true);
+INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 1, 1, '11979830357', TRUE);
+INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 1, 2, '1122366944', FALSE);
+INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 2, 1, '11954782354', TRUE);
+INSERT INTO CRUD_CONTATO (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato) VALUES (SEQ_CRUD_CONTATO.nextval, 3, 1, '11956332569', TRUE);
