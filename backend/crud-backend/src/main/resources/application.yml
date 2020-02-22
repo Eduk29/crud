@@ -3,6 +3,7 @@ server:
   servlet:
     session:
       timeout: 10
+#     ajustes para ocultar página de erro e trace da exception
   error:    include-exception: false
     include-stacktrace: never
     whitelabel:      enabled: true
