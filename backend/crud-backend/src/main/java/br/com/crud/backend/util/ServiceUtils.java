@@ -17,8 +17,8 @@ public class ServiceUtils {
 		return "";
 	}
 
-	public static void removeDoubleQuotes(String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
+	public static String removeDoubleQuotes(String stringWithDoubleQuotes) {
+		return stringWithDoubleQuotes.replace("\"", "");
 	}
 	
 	

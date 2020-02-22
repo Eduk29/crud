@@ -20,29 +20,25 @@ public class TipoDocumentoService {
 	// Attribute
 	@Autowired
 	private TipoDocumentoRepository tipoDocumentoRepository;
-	
+
 	public List<TipoDocumento> find(String filter) throws TipoDocumentoInvalidoException {
 		if (filter != null) {
-			 ServiceUtils.removeDoubleQuotes(filter);
+			ServiceUtils.removeDoubleQuotes(filter);
 		}
-		
-		switch( ServiceUtils.getModeSearch(filter)) {
-			case "type":
-			try {
-				
-				TipoDocumento tipoDocumento = this.findTipoDocumentoByType(ServiceUtils.getParamSearch(filter));
-				
-				if (tipoDocumento != null) {
-					List<TipoDocumento>listaTipos = new ArrayList<TipoDocumento>();
-					listaTipos.add(tipoDocumento);
-					return listaTipos;
-				}
-			} catch (TipoDocumentoInvalidoException e) {
-				throw new TipoDocumentoInvalidoException();
+
+		switch (ServiceUtils.getModeSearch(filter)) {
+		case "type":
+
+			TipoDocumento tipoDocumento = this.findTipoDocumentoByType(ServiceUtils.getParamSearch(filter));
+
+			if (tipoDocumento != null) {
+				List<TipoDocumento> listaTipos = new ArrayList<TipoDocumento>();
+				listaTipos.add(tipoDocumento);
+				return listaTipos;
 			}
-				
-			default:
-				return findAll();
+
+		default:
+			return findAll();
 		}
 	}
 
@@ -57,22 +53,18 @@ public class TipoDocumentoService {
 	}
 
 	public TipoDocumento findTipoDocumentoByType(String filter) throws TipoDocumentoInvalidoException {
-		try {
-			validateTipoDocumento(filter);
-			return tipoDocumentoRepository.findyByType(filter);
-		} catch (TipoDocumentoInvalidoException e) {
-			throw new TipoDocumentoInvalidoException(); 
-		}
+		validateTipoDocumento(filter);
+		return tipoDocumentoRepository.findyByType(filter);
 	}
-	
-	public TipoDocumento findTipoDocumentoById (Integer id) {
+
+	public TipoDocumento findTipoDocumentoById(Integer id) {
 		return tipoDocumentoRepository.findTipoDocumentoById(id);
 	}
-	
+
 	private void validateTipoDocumento(String type) throws TipoDocumentoInvalidoException {
 		if (!type.equals("RG") && !type.equals("CPF")) {
 			throw new TipoDocumentoInvalidoException();
 		}
 	}
-	
+
 }

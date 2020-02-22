@@ -34,7 +34,7 @@ public class DocumentoService  {
 		List<Documento> listDocumento;
 		
 		if (filter != null) {
-			ServiceUtils.removeDoubleQuotes(filter);
+			filter = ServiceUtils.removeDoubleQuotes(filter);
 		}
 
 		switch (ServiceUtils.getModeSearch(filter)) {
