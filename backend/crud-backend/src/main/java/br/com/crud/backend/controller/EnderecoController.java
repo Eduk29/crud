@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.enun.ExceptionMessagesEnun;
 import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
@@ -30,7 +31,7 @@ public class EnderecoController {
 		try {
 			return enderecoService.find(filter);
 		} catch (CepInvalidoException e) {
-			throw new CepInvalidoException("Cep inválido! Favor verificar!");
+			throw new CepInvalidoException(ExceptionMessagesEnun.CEP_ERROR.toString());
 		}
 	}
 	
@@ -44,7 +45,7 @@ public class EnderecoController {
 		try {
 			return enderecoService.save(endereco);
 		} catch (CepInvalidoException e) {
-			throw new CepInvalidoException("Cep inválido! Favor verificar!");
+			throw new CepInvalidoException(ExceptionMessagesEnun.CEP_ERROR.toString());
 		}
 	}
 }

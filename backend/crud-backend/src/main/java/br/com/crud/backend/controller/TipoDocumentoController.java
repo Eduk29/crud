@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.enun.ExceptionMessagesEnun;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.TipoDocumento;
@@ -25,7 +26,7 @@ public class TipoDocumentoController {
 		try {
 			return tipoDocumentoService.find(filter);	
 		} catch (TipoDocumentoInvalidoException e) {
-			throw new TipoDocumentoInvalidoException("Tipo de documento inválido! Favor verificar.");
+			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
 		}
 		
 	}

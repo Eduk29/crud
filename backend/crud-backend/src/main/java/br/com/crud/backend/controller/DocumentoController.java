@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.enun.ExceptionMessagesEnun;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
@@ -32,7 +33,7 @@ public class DocumentoController {
 		try {
 			return documentoService.find(filter);
 		} catch (TipoDocumentoInvalidoException e) {
-			throw new TipoDocumentoInvalidoException("Tipo de documento inválido! Favor verificar.");
+			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
 		} 
 	}
 	
@@ -46,7 +47,7 @@ public class DocumentoController {
 		try {
 			return documentoService.save(documento);
 		} catch (DocumentoInvalidoException e) {
-			throw new DocumentoInvalidoException("Documento Invalido! Favor Verificar");
+			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
 		}
 	}
 

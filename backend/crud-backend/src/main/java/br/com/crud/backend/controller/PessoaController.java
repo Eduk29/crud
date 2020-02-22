@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.crud.backend.enun.ExceptionMessagesEnun;
 import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
@@ -33,7 +34,7 @@ public class PessoaController {
 		try {
 			return pessoaService.find(filter);
 		} catch (GeneroInvalidoException e) {
-			throw new GeneroInvalidoException("Genero Invalido! Favor Verificar");
+			throw new GeneroInvalidoException(ExceptionMessagesEnun.GENERO_ERROR.toString());
 		}
 	}
 
@@ -47,11 +48,11 @@ public class PessoaController {
 		try {
 			return pessoaService.save(pessoa);
 		} catch (DocumentoInvalidoException e) {
-			throw new DocumentoInvalidoException("Documento Invalido! Favor Verificar");
+			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
 		} catch (GeneroInvalidoException e) {
-			throw new GeneroInvalidoException("Genero Invalido! Favor Verificar");
+			throw new GeneroInvalidoException(ExceptionMessagesEnun.GENERO_ERROR.toString());
 		} catch (CepInvalidoException e) {
-			throw new CepInvalidoException("Cep Inválido! Favor Verificar");
+			throw new CepInvalidoException(ExceptionMessagesEnun.CEP_ERROR.toString());
 		}
 	}
 	
