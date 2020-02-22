@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 import br.com.crud.backend.exception.CepInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
-import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.PessoaRepository;
+import br.com.crud.backend.utils.ServiceUtils;
 
 @Service // Expoe a classe como um serviço do spring
 @Transactional // Marca a classe com gerenciamento de transações (SPRING)
-public class PessoaService implements ServiceUtilsInterface {
+public class PessoaService {
 
 	// Attributes
 	@Autowired
@@ -29,20 +29,20 @@ public class PessoaService implements ServiceUtilsInterface {
 	@Autowired
 	private EnderecoService enderecoService;
 
-	public List<Pessoa> find(String filter) {
+	public List<Pessoa> find(String filter) throws GeneroInvalidoException {
 		if (filter != null) {
-			removeDoubleQuotes(filter);
+			filter = ServiceUtils.removeDoubleQuotes(filter);
 		}
-		
-		switch (getModeSearch(filter)) {
+
+		switch (ServiceUtils.getModeSearch(filter)) {
 		case "name":
-			return findByName(getParamSearch(filter));
+			return findByName(ServiceUtils.getParamSearch(filter));
 
 		case "gender":
-			return findByGender(getParamSearch(filter));
+			return findByGender(ServiceUtils.getParamSearch(filter));
 
 		case "id":
-			Pessoa pessoaResult = findById(Integer.parseInt(getParamSearch(filter)));
+			Pessoa pessoaResult = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
 			List<Pessoa> listPessoa = new ArrayList<>();
 			listPessoa.add(pessoaResult);
 			return listPessoa;
@@ -64,56 +64,48 @@ public class PessoaService implements ServiceUtilsInterface {
 		return pessoaRepository.findByName(nameToFind);
 	}
 
-	public List<Pessoa> findByGender(String genderToFind) {
+	public List<Pessoa> findByGender(String genderToFind) throws GeneroInvalidoException {
+		validateGenero(genderToFind);
 		return pessoaRepository.findByGender(genderToFind);
 	}
 
 	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException {
+		
+		validateGenero(pessoa.getGenero());
+		
 		List<Documento> documentoList = new ArrayList<Documento>();
 		List<Endereco> enderecoList = new ArrayList<Endereco>();
-		
+
 		documentoList = pessoa.getDocumentos();
 		enderecoList = pessoa.getEnderecos();
-		
-		try {
-			validateGenero(pessoa.getGenero());
-			
-			pessoa.setEnderecos(new ArrayList<Endereco>());
-			pessoa.setDocumentos(new ArrayList<Documento>());
-			Integer idPessoa = pessoaRepository.save(pessoa).getId();
-			
-			saveDocumentosPessoa(documentoList, idPessoa);
-			saveEnderecosPessoa(enderecoList, idPessoa);
-			
 
-			pessoa.setDocumentos(documentoList);
-			pessoa.setEnderecos(enderecoList);
-			return pessoa;
+		pessoa.setEnderecos(new ArrayList<Endereco>());
+		pessoa.setDocumentos(new ArrayList<Documento>());
+		Integer idPessoa = pessoaRepository.save(pessoa).getId();
 
-		} catch (DocumentoInvalidoException e) {
-			throw new DocumentoInvalidoException();
-		} catch (GeneroInvalidoException e) {
-			throw new GeneroInvalidoException();
-		} catch (CepInvalidoException e) {
-			throw new CepInvalidoException();
-		}
+		saveDocumentosPessoa(documentoList, idPessoa);
+		saveEnderecosPessoa(enderecoList, idPessoa);
+
+		pessoa.setDocumentos(documentoList);
+		pessoa.setEnderecos(enderecoList);
+		return pessoa;
 	}
-	
+
 	public Pessoa removeById(Integer id) {
 		Pessoa pessoaToRemove = findById(id);
 		return pessoaRepository.remove(pessoaToRemove);
 	}
-	
-	public Pessoa updateById (Integer id, Pessoa pessoa) {
+
+	public Pessoa updateById(Integer id, Pessoa pessoa) {
 		pessoa.setId(id);
 		for (int i = 0; i < pessoa.getDocumentos().size(); i++) {
 			documentoService.updateById(pessoa.getDocumentos().get(i).getId(), pessoa.getDocumentos().get(i));
 		}
-		
+
 		return pessoaRepository.update(pessoa);
 	}
-	
-	private void saveDocumentosPessoa (List<Documento> documentosToSave, Integer idOwner) throws DocumentoInvalidoException {
+
+	private void saveDocumentosPessoa(List<Documento> documentosToSave, Integer idOwner) throws DocumentoInvalidoException {
 		documentoService.validateDocumentos(documentosToSave);
 		for (int i = 0; i < documentosToSave.size(); i++) {
 			Pessoa documentoOwner = new Pessoa();
@@ -122,8 +114,9 @@ public class PessoaService implements ServiceUtilsInterface {
 			documentosToSave.set(i, documentoService.save(documentosToSave.get(i)));
 		}
 	}
-	
-	private void saveEnderecosPessoa (List<Endereco> enderecosToSave, Integer idOwner) throws CepInvalidoException {
+
+	private void saveEnderecosPessoa(List<Endereco> enderecosToSave, Integer idOwner) throws CepInvalidoException {
+		enderecoService.validateEnderecos(enderecosToSave);
 		for (int i = 0; i < enderecosToSave.size(); i++) {
 			Pessoa enderecoOwner = new Pessoa();
 			enderecoOwner.setId(idOwner);
@@ -139,23 +132,5 @@ public class PessoaService implements ServiceUtilsInterface {
 				|| generoToValidate.isEmpty()) {
 			throw new GeneroInvalidoException();
 		}
-	}
-
-	public String getModeSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(0, filterQuery.indexOf("="));
-		}
-		return "default";
-	}
-
-	public String getParamSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
-		}
-		return "";
-	}
-	
-	public void removeDoubleQuotes(String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
 	}
 }

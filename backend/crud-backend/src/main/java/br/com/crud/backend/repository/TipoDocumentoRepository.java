@@ -26,7 +26,7 @@ public class TipoDocumentoRepository {
 		return entityManager.createQuery("from TipoDocumento").getResultList();
 	}
 	
-	public List<TipoDocumento> findyByType(String typeToFind) {
+	public TipoDocumento findyByType(String typeToFind) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<TipoDocumento> criteriaQuery = criteriaBuilder.createQuery(TipoDocumento.class);
 		Root<TipoDocumento> tipoDocumento = criteriaQuery.from(TipoDocumento.class);
@@ -34,7 +34,7 @@ public class TipoDocumentoRepository {
 		criteriaQuery.where(criteriaBuilder.equal(tipoDocumento.<String>get("chave"), typeToFind));
 		TypedQuery<TipoDocumento> typedQuery = entityManager.createQuery(criteriaQuery);
 		
-		return typedQuery.getResultList();
+		return typedQuery.getSingleResult();
 	}
 	
 	public TipoDocumento findTipoDocumentoById (Integer id) {

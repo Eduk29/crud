@@ -9,70 +9,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.CepInvalidoException;
-import br.com.crud.backend.interfaces.ServiceUtilsInterface;
+import br.com.crud.backend.exception.DocumentoInvalidoException;
+import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.repository.EnderecoRepository;
+import br.com.crud.backend.utils.ServiceUtils;
 
 @Service
 @Transactional
-public class EnderecoService implements ServiceUtilsInterface {
+public class EnderecoService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
 	@Autowired
 	private PessoaService pessoaService;
-	
+
 	public List<Endereco> find(String filter) throws CepInvalidoException {
 		if (filter != null) {
-			removeDoubleQuotes(filter);
+			filter = ServiceUtils.removeDoubleQuotes(filter);
 		}
-		
-		switch(getModeSearch(filter)) {
-			case "CEP":
-				return findByCep(getParamSearch(filter));
-				
-			case "Estado":
-				return findByEstado(getParamSearch(filter));
-				
-			case "Cidade":
-				return findByCidade(getParamSearch(filter));
-				
-			case "Id":
-				Endereco endereco = findById(Integer.parseInt(getParamSearch(filter)));
-				List<Endereco> enderecoList = new ArrayList<Endereco>();
-				enderecoList.add(endereco);				
-				
-				return enderecoList;
-				
-			default:
-				return findAll();
+
+		switch (ServiceUtils.getModeSearch(filter)) {
+		case "CEP":
+			return findByCep(ServiceUtils.getParamSearch(filter));
+
+		case "Estado":
+			return findByEstado(ServiceUtils.getParamSearch(filter));
+
+		case "Cidade":
+			return findByCidade(ServiceUtils.getParamSearch(filter));
+
+		case "Id":
+			Endereco endereco = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
+			List<Endereco> enderecoList = new ArrayList<Endereco>();
+			enderecoList.add(endereco);
+
+			return enderecoList;
+
+		default:
+			return findAll();
 		}
 	}
 
 	public List<Endereco> findAll() {
 		return enderecoRepository.findAll();
 	}
-	
-	public Endereco findById (Integer id) {
+
+	public Endereco findById(Integer id) {
 		return enderecoRepository.findById(id);
 	}
-	
+
 	public List<Endereco> findByCep(String cepToFind) throws CepInvalidoException {
-		try {
-			validateCep(cepToFind);
-			return enderecoRepository.findByCEP(cepToFind);
-		} catch (CepInvalidoException e) {
-			throw new CepInvalidoException();
-		}
+		validateCep(cepToFind);
+		return enderecoRepository.findByCEP(cepToFind);
 	}
-	
-	public List<Endereco> findByEstado(String estadoToFind){
+
+	public List<Endereco> findByEstado(String estadoToFind) {
 		return enderecoRepository.findByEstado(estadoToFind);
 	}
-	
-	public List<Endereco> findByCidade(String cidadeToFind){
+
+	public List<Endereco> findByCidade(String cidadeToFind) {
 		return enderecoRepository.findByCidade(cidadeToFind);
 	}
 
@@ -84,36 +82,24 @@ public class EnderecoService implements ServiceUtilsInterface {
 
 	private List<Pessoa> findPessoa(List<Pessoa> pessoas) {
 		List<Pessoa> pessoaEnderecoList = new ArrayList<Pessoa>();
-		
+
 		for (int i = 0; i < pessoas.size(); i++) {
 			Pessoa pessoaToAdd = pessoaService.findById(pessoas.get(i).getId());
 			pessoaEnderecoList.add(pessoaToAdd);
 		}
-		
+
 		return pessoaEnderecoList;
 	}
-	
-	private void validateCep (String cep) throws CepInvalidoException {
+
+	public void validateEnderecos(List<Endereco> enderecoList) throws CepInvalidoException {
+		for (int i = 0; i < enderecoList.size(); i++) {
+			validateCep(enderecoList.get(i).getCep());
+		}
+	}
+
+	public void validateCep(String cep) throws CepInvalidoException {
 		if (cep.length() != 8) {
 			throw new CepInvalidoException();
 		}
-	}
-	
-	public void removeDoubleQuotes (String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
-	}
-	
-	public String getModeSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(0, filterQuery.indexOf("="));
-		}
-		return "default";
-	}
-
-	public String getParamSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
-		}
-		return "";
 	}
 }

@@ -25,7 +25,7 @@ public class TipoDocumentoController {
 		try {
 			return tipoDocumentoService.find(filter);	
 		} catch (TipoDocumentoInvalidoException e) {
-			throw new TipoDocumentoInvalidoException("Tipo de documento invï¿½lido! Favor verificar.");
+			throw new TipoDocumentoInvalidoException("Tipo de documento inválido! Favor verificar.");
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package br.com.crud.backend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,35 +8,34 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
-import br.com.crud.backend.interfaces.ServiceUtilsInterface;
 import br.com.crud.backend.model.TipoDocumento;
 import br.com.crud.backend.repository.TipoDocumentoRepository;
+import br.com.crud.backend.utils.ServiceUtils;
 
 @Service
 @Transactional
-public class TipoDocumentoService implements ServiceUtilsInterface {
+public class TipoDocumentoService {
 
 	// Attribute
 	@Autowired
 	private TipoDocumentoRepository tipoDocumentoRepository;
-	
+
 	public List<TipoDocumento> find(String filter) throws TipoDocumentoInvalidoException {
 		if (filter != null) {
-			removeDoubleQuotes(filter);
+			filter = ServiceUtils.removeDoubleQuotes(filter);
 		}
-		
-		switch(getModeSearch(filter)) {
-			case "type":
-			try {
-				return (List<TipoDocumento>)findTipoDocumentoByType(getParamSearch(filter));
-			} catch (TipoDocumentoInvalidoException e) {
-				throw new TipoDocumentoInvalidoException();
-			}
-				
-			default:
-				return findAll();
+
+		switch (ServiceUtils.getModeSearch(filter)) {
+		case "type":
+
+			TipoDocumento tipoDocumento = findTipoDocumentoByType(ServiceUtils.getParamSearch(filter));
+			List<TipoDocumento> tipoDocumentoFoundList = new ArrayList<TipoDocumento>();
+			tipoDocumentoFoundList.add(tipoDocumento);
+			return tipoDocumentoFoundList;
+
+		default:
+			return findAll();
 		}
 	}
 
@@ -50,42 +50,17 @@ public class TipoDocumentoService implements ServiceUtilsInterface {
 	}
 
 	public TipoDocumento findTipoDocumentoByType(String filter) throws TipoDocumentoInvalidoException {
-		try {
-			validateTipoDocumento(filter);
-			if (tipoDocumentoRepository.findyByType(filter).size() > 0) {
-				return tipoDocumentoRepository.findyByType(filter).get(0);
-			}	
-		} catch (TipoDocumentoInvalidoException e) {
-			throw new TipoDocumentoInvalidoException(); 
-		}
-		return null;
+		validateTipoDocumento(filter);
+		return tipoDocumentoRepository.findyByType(filter);
 	}
-	
-	public TipoDocumento findTipoDocumentoById (Integer id) {
+
+	public TipoDocumento findTipoDocumentoById(Integer id) {
 		return tipoDocumentoRepository.findTipoDocumentoById(id);
 	}
-	
+
 	private void validateTipoDocumento(String type) throws TipoDocumentoInvalidoException {
 		if (!type.equals("RG") && !type.equals("CPF")) {
 			throw new TipoDocumentoInvalidoException();
 		}
-	}
-	
-	public String getModeSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(0, filterQuery.indexOf("="));
-		}
-		return "default";
-	}
-
-	public String getParamSearch(String filterQuery) {
-		if (filterQuery != null) {
-			return filterQuery.substring(filterQuery.indexOf("=") + 1, filterQuery.length());
-		}
-		return "";
-	}
-	
-	public void removeDoubleQuotes(String stringWithDoubleQuotes) {
-		stringWithDoubleQuotes = stringWithDoubleQuotes.replace("\"", "");
 	}
 }

@@ -28,9 +28,13 @@ public class PessoaController {
 	private PessoaService pessoaService;
 
 	// API Methods
-	@GetMapping("") // Mapeia o endpoint / dentro do /pessoas
-	public List<Pessoa> find(@RequestParam(value = "$filter", required = false) String filter) {
-		return pessoaService.find(filter);
+	@GetMapping("") // Mapeia o endpoint '/' dentro do '/pessoas'
+	public List<Pessoa> find(@RequestParam(value = "$filter", required = false) String filter) throws GeneroInvalidoException {
+		try {
+			return pessoaService.find(filter);
+		} catch (GeneroInvalidoException e) {
+			throw new GeneroInvalidoException("Genero Invalido! Favor Verificar");
+		}
 	}
 
 	@GetMapping("/{id}") // Mapeia o endpoint /{id} dentro do /pessoas
