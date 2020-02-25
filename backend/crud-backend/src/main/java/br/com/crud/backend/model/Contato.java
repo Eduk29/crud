@@ -33,8 +33,11 @@ public class Contato {
 	@JsonInclude(Include.NON_NULL)
 	private Pessoa pessoa;
 	
-	@Column(name="ID_TIPO_CONTATO", nullable = false, precision = 8, scale = 0)
-	private Integer tipo;
+	@JsonIgnoreProperties(value = "contatos", allowSetters = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_TIPO_CONTATO", nullable = false)
+	@JsonInclude(Include.NON_NULL)
+	private TipoContato tipoContato;
 	
 	@Column(name = "VALOR_CONTATO", nullable = false, length = 255)
 	private String valor;
@@ -58,12 +61,12 @@ public class Contato {
 		this.pessoa = pessoa;
 	}
 
-	public Integer getTipo() {
-		return tipo;
+	public TipoContato getTipoContato() {
+		return tipoContato;
 	}
 
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
+	public void setTipoContato(TipoContato tipoContato) {
+		this.tipoContato = tipoContato;
 	}
 
 	public String getValor() {
