@@ -84,19 +84,19 @@ VALUES
 INSERT INTO CRUD_CONTATO
     (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato)
 VALUES
-    (SEQ_CRUD_CONTATO.nextval, 1, 1, '11979830357', TRUE);
+    (SEQ_CRUD_CONTATO.nextval, 1, 2, '11979830357', TRUE);
 INSERT INTO CRUD_CONTATO
     (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato)
 VALUES
-    (SEQ_CRUD_CONTATO.nextval, 1, 2, '1122366944', FALSE);
+    (SEQ_CRUD_CONTATO.nextval, 1, 1, '1122366944', FALSE);
 INSERT INTO CRUD_CONTATO
     (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato)
 VALUES
-    (SEQ_CRUD_CONTATO.nextval, 2, 1, '11954782354', TRUE);
+    (SEQ_CRUD_CONTATO.nextval, 2, 2, '11954782354', TRUE);
 INSERT INTO CRUD_CONTATO
     (id_contato, id_pessoa, id_tipo_contato, valor_contato, is_principal_contato)
 VALUES
-    (SEQ_CRUD_CONTATO.nextval, 3, 1, '11956332569', TRUE);
+    (SEQ_CRUD_CONTATO.nextval, 3, 2, '11956332569', TRUE);
 
 -- Tipo de Contatos
 
