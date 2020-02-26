@@ -79,6 +79,21 @@ public class EnderecoService {
 		endereco.setPessoas(findPessoa(endereco.getPessoa()));
 		return enderecoRepository.save(endereco);
 	}
+	
+	public Endereco removeById(Integer id) {
+		Endereco enderecoToRemove = findById(id);
+		return enderecoRepository.remove(enderecoToRemove);
+	}
+	
+	public Endereco updateById(Integer id, Endereco endereco) {
+		if (endereco.getPessoa() == null) {
+			List<Pessoa> enderecoOwner = findById(id).getPessoa();
+			endereco.setPessoas(enderecoOwner);
+		}
+		
+		endereco.setId(id);
+		return enderecoRepository.update(endereco);
+	}
 
 	private List<Pessoa> findPessoa(List<Pessoa> pessoas) {
 		List<Pessoa> pessoaEnderecoList = new ArrayList<Pessoa>();

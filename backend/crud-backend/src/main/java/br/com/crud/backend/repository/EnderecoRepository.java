@@ -31,6 +31,16 @@ public class EnderecoRepository {
 			return endereco;
 		}
 		
+		public Endereco remove(Endereco endereco) {
+			entityManager.remove(endereco);
+			return endereco;
+		}
+		
+		public Endereco update(Endereco endereco) {
+			entityManager.merge(endereco);
+			return endereco;
+		}
+		
 		public Endereco findById(Integer id) {
 			return entityManager.find(Endereco.class, id);
 		}
