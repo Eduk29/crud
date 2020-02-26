@@ -24,7 +24,12 @@ public class TipoDocumentoController {
 	@GetMapping(path = "")
 	public List<TipoDocumento> find(@RequestParam(value="$filter", required = false) String filter) throws TipoDocumentoInvalidoException {
 		try {
-			return tipoDocumentoService.find(filter);	
+			List<TipoDocumento> tipoDocumentoList = this.tipoDocumentoService.find(filter);
+			for (int i = 0; i < tipoDocumentoList.size(); i++) {
+				tipoDocumentoList.get(i).setDocumentos(null);
+			}
+			
+			return 	tipoDocumentoList;
 		} catch (TipoDocumentoInvalidoException e) {
 			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
 		}

@@ -33,17 +33,17 @@ public class TipoContatoService {
 		
 		switch (ServiceUtils.getModeSearch(filter)) {
 			case "type":
-				validateTipoContato(param);			
-				tipoContatoList = findTipoDocumentoBy(param);
+				this.validateTipoContato(param);			
+				tipoContatoList = this.findTipoDocumentoBy(param);
 				break;
 				
 			case "id":
-				TipoContato tipoContato = findById(Integer.parseInt(param));
+				TipoContato tipoContato = this.findById(Integer.parseInt(param));
 				tipoContatoList.add(tipoContato);
 				break;
 				
 			default:
-				tipoContatoList = findAll();
+				tipoContatoList = this.findAll();
 				break;
 		}
 		
@@ -53,21 +53,17 @@ public class TipoContatoService {
 	
 	public List<TipoContato> findAll() {
 		List<TipoContato> tipoContatoList = new ArrayList<TipoContato>();
-		tipoContatoList = tipoContatoRepository.findAll();
-		
-		for (int i = 0; i < tipoContatoList.size(); i++) {
-			tipoContatoList.get(i).setContatos(null);
-		}
+		tipoContatoList = this.tipoContatoRepository.findAll();
 		
 		return tipoContatoList ;
 	}
 	
 	public List<TipoContato> findTipoDocumentoBy(String typeToFind) {
-		return tipoContatoRepository.findByType(typeToFind);
+		return this.tipoContatoRepository.findByType(typeToFind);
 	}
 	
 	public TipoContato findById(Integer id) {
-		return tipoContatoRepository.findById(id);
+		return this.tipoContatoRepository.findById(id);
 	}
 	
 	private void validateTipoContato(String type) throws TipoContatoInvalidoException {

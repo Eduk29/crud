@@ -30,83 +30,83 @@ public class DocumentoService {
 	private PessoaService pessoaService;
 
 	public List<Documento> find(String filter) throws TipoDocumentoInvalidoException {
-		Documento documentoResult;
-		List<Documento> listDocumento;
-
+		List<Documento> listDocumento = new ArrayList<Documento>();
+		String param = "";
+		
 		if (filter != null) {
 			filter = ServiceUtils.removeDoubleQuotes(filter);
+			param = ServiceUtils.getParamSearch(filter);
 		}
 
 		switch (ServiceUtils.getModeSearch(filter)) {
 		case "type":
-			return findByType(ServiceUtils.getParamSearch(filter));
+			listDocumento = this.findByType(param);
+			break;
 
 		case "value":
-			documentoResult = findByValue(ServiceUtils.getParamSearch(filter));
-			if (documentoResult == null) {
-				return new ArrayList<Documento>();
-			}
-			listDocumento = new ArrayList<Documento>();
-			listDocumento.add(documentoResult);
-			return listDocumento;
+			Documento documentoValueResult = this.findByValue(param);
+			listDocumento.add(documentoValueResult);
+			break;
 
 		case "id":
-			documentoResult = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
-			listDocumento = new ArrayList<>();
-			listDocumento.add(documentoResult);
-			return listDocumento;
+			Documento documentoIdResult = this.findById(Integer.parseInt(param));
+			listDocumento.add(documentoIdResult);
+			break;
 
 		default:
-			return findAll();
+			listDocumento = this.findAll();
+			break;
 		}
+		
+		return listDocumento;
 	}
 
 	public List<Documento> findAll() {
-		return documentoRepository.findAll();
+		return this.documentoRepository.findAll();
 	}
 
 	public Documento findById(Integer id) {
-		return documentoRepository.findById(id);
+		return this.documentoRepository.findById(id);
 	}
 
 	public List<Documento> findByType(String filterQuery) throws TipoDocumentoInvalidoException {
 		String typeToFind = ServiceUtils.getParamSearch(filterQuery);
-		return tipoDocumentoService.findTipoDocumentoByType(typeToFind).getDocumentos();
+		return this.tipoDocumentoService.findTipoDocumentoByType(typeToFind).getDocumentos();
 	}
 
 	public Documento findByValue(String valueToFind) {
 		try {
-			return documentoRepository.findByValue(valueToFind);
+			return this.documentoRepository.findByValue(valueToFind);
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
 	public Documento save(Documento documento) throws DocumentoInvalidoException {
-		documento.setTipoDocumento(tipoDocumentoService.findTipoDocumentoById(documento.getTipoDocumento().getId()));
-		documento.setPessoa(pessoaService.findById(documento.getPessoa().getId()));
-		validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
-		return documentoRepository.save(documento);
+		documento.setTipoDocumento(this.tipoDocumentoService.findTipoDocumentoById(documento.getTipoDocumento().getId()));
+		documento.setPessoa(this.pessoaService.findById(documento.getPessoa().getId()));
+		this.validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
+		return this.documentoRepository.save(documento);
 	}
 
 	public Documento removeById(Integer id) {
 		Documento documentoToRemove = findById(id);
-		return documentoRepository.remove(documentoToRemove);
+		return this.documentoRepository.remove(documentoToRemove);
 	}
 
 	public Documento updateById(Integer id, Documento documento) {
 		if (documento.getPessoa() == null) {
-			Documento documentoToUpdate = findById(id);
+			Documento documentoToUpdate = this.findById(id);
 			documento.setPessoa(documentoToUpdate.getPessoa());
 		}
 
 		documento.setId(id);
-		return documentoRepository.update(documento);
+		return this.documentoRepository.update(documento);
 	}
 
 	public void validateDocumentos(List<Documento> documentoList) throws DocumentoInvalidoException {
 		for (int i = 0; i < documentoList.size(); i++) {
-			validateDocumento(documentoList.get(i).getTipoDocumento(), documentoList.get(i).getValorDocumento());
+			this.validateDocumento(documentoList.get(i).getTipoDocumento(), documentoList.get(i).getValorDocumento());
 		}
 	}
 

@@ -35,18 +35,19 @@ public class TipoDocumentoService {
 			return tipoDocumentoFoundList;
 
 		default:
-			return findAll();
+			return this.findAll();
 		}
 	}
 
 	public List<TipoDocumento> findAll() {
-		List<TipoDocumento> tiposDocumento = tipoDocumentoRepository.findAll();
+		List<TipoDocumento> tiposDocumento = new ArrayList<TipoDocumento>();
+		tiposDocumento = this.tipoDocumentoRepository.findAll();
 
-		for (int i = 0; i < tiposDocumento.size(); i++) {
-			tiposDocumento.get(i).setDocumentos(null);
-		}
+//		for (int i = 0; i < tiposDocumento.size(); i++) {
+//			tiposDocumento.get(i).setDocumentos(null);
+//		}
 
-		return tipoDocumentoRepository.findAll();
+		return tiposDocumento;
 	}
 
 	public TipoDocumento findTipoDocumentoByType(String filter) throws TipoDocumentoInvalidoException {
@@ -59,7 +60,17 @@ public class TipoDocumentoService {
 	}
 
 	private void validateTipoDocumento(String type) throws TipoDocumentoInvalidoException {
-		if (!type.equals("RG") && !type.equals("CPF")) {
+		List<TipoDocumento> tipoDocumentoList = findAll();
+		boolean listHasType = false;
+		
+		for (int i = 0; i < tipoDocumentoList.size(); i++) {
+			if (tipoDocumentoList.get(i).getChave().equals(type)) {
+				listHasType = true;
+				break;
+			}
+		}
+		
+		if (!listHasType) {
 			throw new TipoDocumentoInvalidoException();
 		}
 	}

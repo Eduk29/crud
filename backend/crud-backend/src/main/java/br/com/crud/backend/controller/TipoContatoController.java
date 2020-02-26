@@ -1,5 +1,6 @@
 package br.com.crud.backend.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,14 @@ public class TipoContatoController {
 	@GetMapping(path = "")
 	public List<TipoContato> find(@RequestParam(value = "$filter", required = false) String filter) throws TipoContatoInvalidoException {
 		try {
-			return tipoContatoService.find(filter);
+			List<TipoContato> tipoContatoList = new ArrayList<TipoContato>();
+			tipoContatoList = this.tipoContatoService.find(filter);
+			
+			for (int i = 0; i < tipoContatoList.size(); i++) {
+				tipoContatoList.get(i).setContatos(null);
+			}
+			
+			return tipoContatoList;
 		} catch (TipoContatoInvalidoException e) {
 			throw new TipoContatoInvalidoException(ExceptionMessagesEnun.TIPO_CONTATO_ERROR.toString());
 		}
