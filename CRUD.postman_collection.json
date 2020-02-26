@@ -1,0 +1,925 @@
+{
+	"info": {
+		"_postman_id": "403f11ed-1998-4801-a2e5-e7c0aed01e01",
+		"name": "CRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pessoa",
+			"item": [
+				{
+					"name": "List Pessoa",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "donafilho",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pessoas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pessoa by ID",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "donafilho",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pessoas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pessoa by Gender",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "donafilho",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pessoas?$filter=\"gender=Masculino\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"gender=Masculino\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pessoa by Name",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "donafilho",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pessoas?$filter=\"name=Eduardo\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"name=Eduardo\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pessoa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Luiz Gusmão\",\r\n    \"genero\": \"Masculino\",\r\n    \"documentos\": [\r\n        {\r\n            \"valorDocumento\": \"35894571257\",\r\n            \"tipoDocumento\": {\r\n                \"id\": 2,\r\n                \"chave\": \"CPF\",\r\n                \"valor\": \"CPF\"\r\n            }\r\n        }\r\n    ],\r\n    \"enderecos\": [\r\n        {\r\n            \"cep\": \"02278120\",\r\n            \"complemento\": null,\r\n            \"cidade\": \"São Paulo\",\r\n            \"estado\": \"SP\",\r\n            \"logradouro\": \"Rua Feliz e Zangado\",\r\n            \"numero\": \"25\"\r\n        }\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/pessoas/novo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas",
+								"novo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Pessoa by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pessoas/1/remover",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas",
+								"1",
+								"remover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pessoa",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Jose Eduardo Trindade E Marques\",\r\n    \"genero\": \"Masculino\",\r\n    \"documentos\": [\r\n        {\r\n        \t\"id\": 1,\r\n            \"tipoDocumento\": \"CPF\",\r\n            \"valorDocumento\": \"99924577721\"\r\n        }\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/pessoas/1/alterar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pessoas",
+								"1",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Documento",
+			"item": [
+				{
+					"name": "List Documento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/documento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Documento by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/documento/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Documento by Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/documento?$filter=\"type=RG\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"type=RG\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Documento by Value",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/documento?$filter=\"value=99988877766\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"value=99988877766\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Documento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n    \t\"tipoDocumento\": {\r\n    \t\t\"id\": 2\r\n    \t},\r\n        \"valorDocumento\": \"99955577766\",\r\n        \"pessoa\": {\r\n            \"id\": 1\r\n        }\r\n    }\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/documento/novo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento",
+								"novo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Documento by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/documento/1/remover",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento",
+								"1",
+								"remover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Documento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipoDocumento\": \"CPF\",\r\n    \"valorDocumento\": \"99924577772\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/documento/1/alterar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"documento",
+								"1",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Endereco",
+			"item": [
+				{
+					"name": "List Endereco",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Endereco by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Endereco by Id (filter)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco?$filter=Id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "Id=2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Endereco by CEP",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco?$filter=\"CEP=02080050\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"CEP=02080050\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Endereco by Cidade",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco?$filter=\"Cidade=Sao Paulo\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"Cidade=Sao Paulo\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Endereco by Estado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco?$filter=\"Estado=SP\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"Estado=SP\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Endereco",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n   \"pessoa\":[ \r\n      { \r\n         \"id\":2\r\n      }\r\n   ],\r\n   \"cep\":\"02080050\",\r\n   \"complemento\":null,\r\n   \"cidade\":\"São Paulo\",\r\n   \"estado\":\"SP\",\r\n   \"logradouro\":\"Rua Mascote Feliz\",\r\n   \"numero\":\"12\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/endereco/novo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco",
+								"novo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Endereço By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/endereco/1/remover",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco",
+								"1",
+								"remover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Endereco",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"cep\": \"02080170\",\r\n        \"complemento\": null,\r\n        \"cidade\": \"Sao Paulo\",\r\n        \"estado\": \"SP\",\r\n        \"logradouro\": \"Rua Mascote Feliz\",\r\n        \"numero\": \"12\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/endereco/1/alterar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"endereco",
+								"1",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Contato",
+			"item": [
+				{
+					"name": "List Contato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/contato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Contato by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/contato/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Contato by Value",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contato?$filter=\"Value=11979830357\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"Value=11979830357\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Contato by Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/contato?$filter=\"type=TELEFONE\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "\"type=TELEFONE\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contato",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"tipoContato\": {\r\n            \"chave\": \"CELULAR\"\r\n        },\r\n        \"valor\": \"11979830125\",\r\n        \"isPrincipal\": true,\r\n        \"pessoa\": {\r\n        \t\"id\": 1\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contato/novo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato",
+								"novo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Contato by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/contato/5/remover",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato",
+								"5",
+								"remover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Contato",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"id\": 5,\r\n        \"pessoa\": {\r\n            \"id\": 1,\r\n            \"nome\": \"Jose Eduardo Trindade E Marques\",\r\n            \"genero\": \"Masculino\",\r\n            \"documentos\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"valorDocumento\": \"99924577774\",\r\n                    \"tipoDocumento\": {\r\n                        \"id\": 2,\r\n                        \"chave\": \"CPF\",\r\n                        \"valor\": \"CPF\"\r\n                    }\r\n                }\r\n            ],\r\n            \"enderecos\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"cep\": \"02080050\",\r\n                    \"complemento\": null,\r\n                    \"cidade\": \"Sao Paulo\",\r\n                    \"estado\": \"SP\",\r\n                    \"logradouro\": \"Rua Mascote Feliz\",\r\n                    \"numero\": \"12\"\r\n                }\r\n            ]\r\n        },\r\n        \"tipoContato\": {\r\n            \"id\": 2,\r\n            \"chave\": \"CELULAR\",\r\n            \"valor\": \"Celular\"\r\n        },\r\n        \"valor\": \"11979831470\",\r\n        \"isPrincipal\": true\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/contato/5/alterar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"contato",
+								"5",
+								"alterar"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TipoDocumento",
+			"item": [
+				{
+					"name": "List TipoDocumento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tipo-documento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tipo-documento"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TipoContato",
+			"item": [
+				{
+					"name": "List TipoContato",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tipo-contato",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tipo-contato"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
