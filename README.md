@@ -10,7 +10,11 @@ This project is structured with three core folders: backend, frontend and models
 
 The backend packaging is Maven and the frontend packaging is NPM, but use whatever you are familiar with. :sparkles:
 
-For more details visit: - [Back-End](https://github.com/Eduk29/crud/tree/develop/backend) - [Front-End](https://github.com/Eduk29/crud/tree/develop/frontend) - [Models](https://github.com/Eduk29/crud/tree/develop/models)
+For more details visit:
+
+- [Back-End](https://github.com/Eduk29/crud/tree/develop/backend)
+- [Front-End](https://github.com/Eduk29/crud/tree/develop/frontend)
+- [Models](https://github.com/Eduk29/crud/tree/develop/models)
 
 ## Developer :computer:
 
