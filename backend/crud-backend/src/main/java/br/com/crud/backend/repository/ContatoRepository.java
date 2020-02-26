@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.crud.backend.model.Contato;
+import br.com.crud.backend.model.Documento;
 
 @Repository
 public class ContatoRepository {
@@ -39,5 +40,20 @@ public class ContatoRepository {
 		TypedQuery<Contato> typedQuery = entityManager.createQuery(criteriaQuery);
 		
 		return typedQuery.getResultList();
+	}
+	
+	public Contato save (Contato contato) {
+		entityManager.persist(contato);
+		return contato;
+	}
+	
+	public Contato remove (Contato contato) {
+		entityManager.remove(contato);
+		return contato;
+	}
+	
+	public Contato update (Contato contato) {
+		entityManager.merge(contato);
+		return contato;
 	}
 }

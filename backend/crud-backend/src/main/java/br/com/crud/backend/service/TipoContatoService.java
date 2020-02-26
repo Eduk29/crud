@@ -34,7 +34,7 @@ public class TipoContatoService {
 		switch (ServiceUtils.getModeSearch(filter)) {
 			case "type":
 				this.validateTipoContato(param);			
-				tipoContatoList = this.findTipoDocumentoBy(param);
+				tipoContatoList = this.findTipoDocumentoByType(param);
 				break;
 				
 			case "id":
@@ -58,7 +58,8 @@ public class TipoContatoService {
 		return tipoContatoList ;
 	}
 	
-	public List<TipoContato> findTipoDocumentoBy(String typeToFind) {
+	public List<TipoContato> findTipoDocumentoByType(String typeToFind) throws TipoContatoInvalidoException {
+		validateTipoContato(typeToFind);
 		return this.tipoContatoRepository.findByType(typeToFind);
 	}
 	

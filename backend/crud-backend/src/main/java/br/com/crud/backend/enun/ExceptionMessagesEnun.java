@@ -26,5 +26,10 @@ public enum ExceptionMessagesEnun {
 		public String toString() {
 			return "Tipo de contato inválido! Favor verificar.";
 		}
+	},
+	CONTATO_ERROR {
+		public String toString() {
+			return "Contato inválido! Favor verificar.";
+		}
 	}
 }
