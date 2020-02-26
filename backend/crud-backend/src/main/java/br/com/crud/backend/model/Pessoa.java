@@ -45,7 +45,13 @@ public class Pessoa {
 
 	@JsonIgnoreProperties(value = "pessoa", allowSetters = true)
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
+	@JsonInclude(Include.NON_NULL)
 	private List<Endereco> enderecos;
+	
+	@JsonIgnoreProperties(value = "pessoa", allowSetters = true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "pessoa")
+	@JsonInclude(Include.NON_NULL)
+	private List<Contato> contatos;
 
 	// Getters & Setters
 	public Integer getId() {
@@ -88,6 +94,14 @@ public class Pessoa {
 		this.enderecos = enderecos;
 	}
 	
+	public List<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(List<Contato> contatos) {
+		this.contatos = contatos;
+	}
+
 	// Methods
 	@Override
 	public String toString() {

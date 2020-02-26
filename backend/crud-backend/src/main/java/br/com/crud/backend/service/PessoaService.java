@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.crud.backend.exception.CepInvalidoException;
+import br.com.crud.backend.exception.ContatoInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
+import br.com.crud.backend.exception.TipoContatoInvalidoException;
+import br.com.crud.backend.model.Contato;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
@@ -28,6 +31,8 @@ public class PessoaService {
 	private DocumentoService documentoService;
 	@Autowired
 	private EnderecoService enderecoService;
+	@Autowired
+	private ContatoService contatoService;
 
 	public List<Pessoa> find(String filter) throws GeneroInvalidoException {
 		if (filter != null) {
@@ -36,94 +41,112 @@ public class PessoaService {
 
 		switch (ServiceUtils.getModeSearch(filter)) {
 		case "name":
-			return findByName(ServiceUtils.getParamSearch(filter));
+			return this.findByName(ServiceUtils.getParamSearch(filter));
 
 		case "gender":
-			return findByGender(ServiceUtils.getParamSearch(filter));
+			return this.findByGender(ServiceUtils.getParamSearch(filter));
 
 		case "id":
-			Pessoa pessoaResult = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
+			Pessoa pessoaResult = this.findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
 			List<Pessoa> listPessoa = new ArrayList<>();
 			listPessoa.add(pessoaResult);
 			return listPessoa;
 
 		default:
-			return findAll();
+			return this.findAll();
 		}
 	}
 
 	public List<Pessoa> findAll() {
-		return pessoaRepository.findAll();
+		return this.pessoaRepository.findAll();
 	}
 
 	public Pessoa findById(Integer id) {
-		return pessoaRepository.findById(id);
+		return this.pessoaRepository.findById(id);
 	}
 
 	public List<Pessoa> findByName(String nameToFind) {
-		return pessoaRepository.findByName(nameToFind);
+		return this.pessoaRepository.findByName(nameToFind);
 	}
 
 	public List<Pessoa> findByGender(String genderToFind) throws GeneroInvalidoException {
-		validateGenero(genderToFind);
-		return pessoaRepository.findByGender(genderToFind);
+		this.validateGenero(genderToFind);
+		return this.pessoaRepository.findByGender(genderToFind);
 	}
 
-	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException {
-		
-		validateGenero(pessoa.getGenero());
-		
+	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException,
+			TipoContatoInvalidoException, ContatoInvalidoException {
+
+		this.validateGenero(pessoa.getGenero());
+
 		List<Documento> documentoList = new ArrayList<Documento>();
 		List<Endereco> enderecoList = new ArrayList<Endereco>();
+		List<Contato> contatoList = new ArrayList<Contato>();
 
 		documentoList = pessoa.getDocumentos();
 		enderecoList = pessoa.getEnderecos();
+		contatoList = pessoa.getContatos();
 
 		pessoa.setEnderecos(new ArrayList<Endereco>());
 		pessoa.setDocumentos(new ArrayList<Documento>());
-		Integer idPessoa = pessoaRepository.save(pessoa).getId();
+		pessoa.setContatos(new ArrayList<Contato>());
 
-		saveDocumentosPessoa(documentoList, idPessoa);
-		saveEnderecosPessoa(enderecoList, idPessoa);
+		Integer idPessoa = this.pessoaRepository.save(pessoa).getId();
+
+		this.saveDocumentosPessoa(documentoList, idPessoa);
+		this.saveEnderecosPessoa(enderecoList, idPessoa);
+		this.saveContatosPessoa(contatoList, idPessoa);
 
 		pessoa.setDocumentos(documentoList);
 		pessoa.setEnderecos(enderecoList);
+		pessoa.setContatos(contatoList);
 		return pessoa;
 	}
 
 	public Pessoa removeById(Integer id) {
 		Pessoa pessoaToRemove = findById(id);
-		return pessoaRepository.remove(pessoaToRemove);
+		return this.pessoaRepository.remove(pessoaToRemove);
 	}
 
 	public Pessoa updateById(Integer id, Pessoa pessoa) {
 		pessoa.setId(id);
 		for (int i = 0; i < pessoa.getDocumentos().size(); i++) {
-			documentoService.updateById(pessoa.getDocumentos().get(i).getId(), pessoa.getDocumentos().get(i));
+			this.documentoService.updateById(pessoa.getDocumentos().get(i).getId(), pessoa.getDocumentos().get(i));
 		}
 
-		return pessoaRepository.update(pessoa);
+		return this.pessoaRepository.update(pessoa);
 	}
 
-	private void saveDocumentosPessoa(List<Documento> documentosToSave, Integer idOwner) throws DocumentoInvalidoException {
-		documentoService.validateDocumentos(documentosToSave);
+	private void saveDocumentosPessoa(List<Documento> documentosToSave, Integer idOwner)
+			throws DocumentoInvalidoException {
+		this.documentoService.validateDocumentos(documentosToSave);
 		for (int i = 0; i < documentosToSave.size(); i++) {
 			Pessoa documentoOwner = new Pessoa();
 			documentoOwner.setId(idOwner);
 			documentosToSave.get(i).setPessoa(documentoOwner);
-			documentosToSave.set(i, documentoService.save(documentosToSave.get(i)));
+			documentosToSave.set(i, this.documentoService.save(documentosToSave.get(i)));
 		}
 	}
 
 	private void saveEnderecosPessoa(List<Endereco> enderecosToSave, Integer idOwner) throws CepInvalidoException {
-		enderecoService.validateEnderecos(enderecosToSave);
+		this.enderecoService.validateEnderecos(enderecosToSave);
 		for (int i = 0; i < enderecosToSave.size(); i++) {
 			Pessoa enderecoOwner = new Pessoa();
 			enderecoOwner.setId(idOwner);
 			List<Pessoa> enderecoOwnerList = new ArrayList<Pessoa>();
 			enderecoOwnerList.add(enderecoOwner);
 			enderecosToSave.get(i).setPessoas(enderecoOwnerList);
-			enderecosToSave.set(i, enderecoService.save(enderecosToSave.get(i)));
+			enderecosToSave.set(i, this.enderecoService.save(enderecosToSave.get(i)));
+		}
+	}
+
+	private void saveContatosPessoa(List<Contato> contatosToSave, Integer idOwner)
+			throws TipoContatoInvalidoException, ContatoInvalidoException {
+		for (int i = 0; i < contatosToSave.size(); i++) {
+			Pessoa contatoOwner = new Pessoa();
+			contatoOwner.setId(idOwner);
+			contatosToSave.get(i).setPessoa(contatoOwner);
+			contatosToSave.set(i, this.contatoService.save(contatosToSave.get(i)));
 		}
 	}
 

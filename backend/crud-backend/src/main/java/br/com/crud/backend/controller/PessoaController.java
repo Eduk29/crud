@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.crud.backend.enun.ExceptionMessagesEnun;
 import br.com.crud.backend.exception.CepInvalidoException;
+import br.com.crud.backend.exception.ContatoInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
+import br.com.crud.backend.exception.TipoContatoInvalidoException;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.service.PessoaService;
 
@@ -32,7 +34,7 @@ public class PessoaController {
 	@GetMapping("") // Mapeia o endpoint '/' dentro do '/pessoas'
 	public List<Pessoa> find(@RequestParam(value = "$filter", required = false) String filter) throws GeneroInvalidoException {
 		try {
-			return pessoaService.find(filter);
+			return this.pessoaService.find(filter);
 		} catch (GeneroInvalidoException e) {
 			throw new GeneroInvalidoException(ExceptionMessagesEnun.GENERO_ERROR.toString());
 		}
@@ -40,29 +42,34 @@ public class PessoaController {
 
 	@GetMapping("/{id}") // Mapeia o endpoint /{id} dentro do /pessoas
 	public Pessoa findById(@PathVariable("id") Integer id) {
-		return pessoaService.findById(id);
+		return this.pessoaService.findById(id);
 	}
 
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public Pessoa save(@RequestBody Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException {
+	public Pessoa save(@RequestBody Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException,
+			CepInvalidoException, ContatoInvalidoException, TipoContatoInvalidoException {
 		try {
-			return pessoaService.save(pessoa);
+			return this.pessoaService.save(pessoa);
 		} catch (DocumentoInvalidoException e) {
 			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
 		} catch (GeneroInvalidoException e) {
 			throw new GeneroInvalidoException(ExceptionMessagesEnun.GENERO_ERROR.toString());
 		} catch (CepInvalidoException e) {
 			throw new CepInvalidoException(ExceptionMessagesEnun.CEP_ERROR.toString());
+		} catch (ContatoInvalidoException e) {
+			throw new ContatoInvalidoException(ExceptionMessagesEnun.CONTATO_ERROR.toString());
+		} catch (TipoContatoInvalidoException e) {
+			throw new TipoContatoInvalidoException(ExceptionMessagesEnun.TIPO_CONTATO_ERROR.toString());
 		}
 	}
 	
 	@DeleteMapping(path = "/{id}/remover")
 	public Pessoa removeById(@PathVariable("id") Integer id) {
-		return pessoaService.removeById(id);
+		return this.pessoaService.removeById(id);
 	}
 	
 	@PutMapping(path = "/{id}/alterar")
 	public Pessoa updateById(@RequestBody Pessoa pessoa, @PathVariable("id") Integer id) {
-		return pessoaService.updateById(id, pessoa);
+		return this.pessoaService.updateById(id, pessoa);
 	}
 }
