@@ -1,27 +1,31 @@
-# CrudFrontend
+# CRUD - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
+This project is a study application, so it may contain some errors. Will be a pleasure receive your code review, suggestions and/or tips. :raised_hands:
 
-## Development server
+This application uses Angular and Typescript. And this section deals with installation details, application startup guide, dependencies and more. So you must have the following versions/dependencies installed on your computer to start the application:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- NodeJS
+- NPM
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This project was bootstrapped with [Angular CLI](https://cli.angular.io/)
 
-## Build
+**1 -** Clone the project and install the dependencies:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
+$ git clone https://github.com/Eduk29/crud.git
+$ cd crud/frontend
+$ npm install
+```
 
-## Running unit tests
+**2 -** Keep hacking! :metal:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Start Application
 
-## Running end-to-end tests
+To be Developed
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Developer :computer:
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+José Eduardo Trindade E Marques  
+edu.temarques@gmail.com
