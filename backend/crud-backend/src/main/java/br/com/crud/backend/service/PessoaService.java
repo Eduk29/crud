@@ -35,26 +35,34 @@ public class PessoaService {
 	private ContatoService contatoService;
 
 	public List<Pessoa> find(String filter) throws GeneroInvalidoException {
+		List<Pessoa> pessoaList = new ArrayList<Pessoa>();
+		String param = null;
+		
 		if (filter != null) {
 			filter = ServiceUtils.removeDoubleQuotes(filter);
+			param = ServiceUtils.getParamSearch(filter);
 		}
 
 		switch (ServiceUtils.getModeSearch(filter)) {
 		case "name":
-			return this.findByName(ServiceUtils.getParamSearch(filter));
+			pessoaList = this.findByName(param);
+			break;
 
 		case "gender":
-			return this.findByGender(ServiceUtils.getParamSearch(filter));
+			pessoaList = this.findByGender(param);
+			break;
 
 		case "id":
-			Pessoa pessoaResult = this.findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
-			List<Pessoa> listPessoa = new ArrayList<>();
-			listPessoa.add(pessoaResult);
-			return listPessoa;
+			Pessoa pessoaResult = this.findById(Integer.parseInt(param));
+			pessoaList.add(pessoaResult);
+			break;
 
 		default:
-			return this.findAll();
+			pessoaList = this.findAll();
+			break;
 		}
+		
+		return pessoaList;
 	}
 
 	public List<Pessoa> findAll() {
@@ -119,7 +127,6 @@ public class PessoaService {
 
 	private void saveDocumentosPessoa(List<Documento> documentosToSave, Integer idOwner)
 			throws DocumentoInvalidoException {
-		this.documentoService.validateDocumentos(documentosToSave);
 		for (int i = 0; i < documentosToSave.size(); i++) {
 			Pessoa documentoOwner = new Pessoa();
 			documentoOwner.setId(idOwner);
@@ -129,7 +136,6 @@ public class PessoaService {
 	}
 
 	private void saveEnderecosPessoa(List<Endereco> enderecosToSave, Integer idOwner) throws CepInvalidoException {
-		this.enderecoService.validateEnderecos(enderecosToSave);
 		for (int i = 0; i < enderecosToSave.size(); i++) {
 			Pessoa enderecoOwner = new Pessoa();
 			enderecoOwner.setId(idOwner);
