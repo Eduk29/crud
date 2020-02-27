@@ -19,6 +19,7 @@ import br.com.crud.backend.exception.ContatoInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.exception.TipoContatoInvalidoException;
+import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.service.PessoaService;
 
@@ -47,7 +48,7 @@ public class PessoaController {
 
 	@PostMapping(path = "/novo", consumes = "application/json")
 	public Pessoa save(@RequestBody Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException,
-			CepInvalidoException, ContatoInvalidoException, TipoContatoInvalidoException {
+			CepInvalidoException, ContatoInvalidoException, TipoContatoInvalidoException, TipoDocumentoInvalidoException {
 		try {
 			return this.pessoaService.save(pessoa);
 		} catch (DocumentoInvalidoException e) {
@@ -60,6 +61,8 @@ public class PessoaController {
 			throw new ContatoInvalidoException(ExceptionMessagesEnun.CONTATO_ERROR.toString());
 		} catch (TipoContatoInvalidoException e) {
 			throw new TipoContatoInvalidoException(ExceptionMessagesEnun.TIPO_CONTATO_ERROR.toString());
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
 		}
 	}
 	
@@ -69,7 +72,13 @@ public class PessoaController {
 	}
 	
 	@PutMapping(path = "/{id}/alterar")
-	public Pessoa updateById(@RequestBody Pessoa pessoa, @PathVariable("id") Integer id) {
-		return this.pessoaService.updateById(id, pessoa);
+	public Pessoa updateById(@RequestBody Pessoa pessoa, @PathVariable("id") Integer id) throws TipoContatoInvalidoException, ContatoInvalidoException, GeneroInvalidoException {
+		try {
+			return this.pessoaService.updateById(id, pessoa);
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoContatoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
+		} catch (DocumentoInvalidoException e) {
+			throw new ContatoInvalidoException(ExceptionMessagesEnun.CONTATO_ERROR.toString());
+		}
 	}
 }

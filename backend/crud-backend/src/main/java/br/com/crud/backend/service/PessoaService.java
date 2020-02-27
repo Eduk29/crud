@@ -13,6 +13,7 @@ import br.com.crud.backend.exception.ContatoInvalidoException;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.GeneroInvalidoException;
 import br.com.crud.backend.exception.TipoContatoInvalidoException;
+import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Contato;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
@@ -37,7 +38,7 @@ public class PessoaService {
 	public List<Pessoa> find(String filter) throws GeneroInvalidoException {
 		List<Pessoa> pessoaList = new ArrayList<Pessoa>();
 		String param = null;
-		
+
 		if (filter != null) {
 			filter = ServiceUtils.removeDoubleQuotes(filter);
 			param = ServiceUtils.getParamSearch(filter);
@@ -61,7 +62,7 @@ public class PessoaService {
 			pessoaList = this.findAll();
 			break;
 		}
-		
+
 		return pessoaList;
 	}
 
@@ -83,7 +84,7 @@ public class PessoaService {
 	}
 
 	public Pessoa save(Pessoa pessoa) throws DocumentoInvalidoException, GeneroInvalidoException, CepInvalidoException,
-			TipoContatoInvalidoException, ContatoInvalidoException {
+			TipoContatoInvalidoException, ContatoInvalidoException, TipoDocumentoInvalidoException {
 
 		this.validateGenero(pessoa.getGenero());
 
@@ -116,17 +117,24 @@ public class PessoaService {
 		return this.pessoaRepository.remove(pessoaToRemove);
 	}
 
-	public Pessoa updateById(Integer id, Pessoa pessoa) {
-		pessoa.setId(id);
-		for (int i = 0; i < pessoa.getDocumentos().size(); i++) {
-			this.documentoService.updateById(pessoa.getDocumentos().get(i).getId(), pessoa.getDocumentos().get(i));
-		}
+	public Pessoa updateById(Integer id, Pessoa pessoa) throws TipoDocumentoInvalidoException,
+			DocumentoInvalidoException, TipoContatoInvalidoException, ContatoInvalidoException {
+		Pessoa pessoaToUpdate = pessoa;
+		pessoaToUpdate.setId(id);
+
+		List<Documento> documentoList = pessoa.getDocumentos();
+		List<Contato> contatoList = pessoa.getContatos();
+		List<Endereco> enderecoList = pessoa.getEnderecos();
+
+		this.updateDocumentosPessoa(documentoList, id);
+		this.updateContatosPessoa(contatoList, id);
+		this.updateEnderecosPessoa(enderecoList, id);
 
 		return this.pessoaRepository.update(pessoa);
 	}
 
 	private void saveDocumentosPessoa(List<Documento> documentosToSave, Integer idOwner)
-			throws DocumentoInvalidoException {
+			throws DocumentoInvalidoException, TipoDocumentoInvalidoException {
 		for (int i = 0; i < documentosToSave.size(); i++) {
 			Pessoa documentoOwner = new Pessoa();
 			documentoOwner.setId(idOwner);
@@ -153,6 +161,32 @@ public class PessoaService {
 			contatoOwner.setId(idOwner);
 			contatosToSave.get(i).setPessoa(contatoOwner);
 			contatosToSave.set(i, this.contatoService.save(contatosToSave.get(i)));
+		}
+	}
+
+	private void updateDocumentosPessoa(List<Documento> documentosToUpdateList, Integer idOwner)
+			throws TipoDocumentoInvalidoException, DocumentoInvalidoException {
+		for (int i = 0; i < documentosToUpdateList.size(); i++) {
+			Pessoa documentoOwner = new Pessoa();
+			documentoOwner.setId(idOwner);
+			documentosToUpdateList.get(i).setPessoa(documentoOwner);
+			this.documentoService.updateById(documentosToUpdateList.get(i).getId(), documentosToUpdateList.get(i));
+		}
+	}
+
+	private void updateContatosPessoa(List<Contato> contatosToUpdateList, Integer idOwner)
+			throws TipoContatoInvalidoException, ContatoInvalidoException {
+		for (int i = 0; i < contatosToUpdateList.size(); i++) {
+			Pessoa contatoOwner = new Pessoa();
+			contatoOwner.setId(idOwner);
+			contatosToUpdateList.get(i).setPessoa(contatoOwner);
+			this.contatoService.updateById(contatosToUpdateList.get(i).getId(), contatosToUpdateList.get(i));
+		}
+	}
+	
+	private void updateEnderecosPessoa(List<Endereco> enderecosToUpdateList, Integer idOwner) {
+		for (int i = 0; i < enderecosToUpdateList.size(); i++) {
+			this.enderecoService.updateById(enderecosToUpdateList.get(i).getId(), enderecosToUpdateList.get(i));	
 		}
 	}
 

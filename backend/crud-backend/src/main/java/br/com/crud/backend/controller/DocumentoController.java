@@ -26,28 +26,32 @@ public class DocumentoController {
 	// Attributes
 	@Autowired
 	private DocumentoService documentoService;
-	
+
 	// API Methods
 	@GetMapping("")
-	public List<Documento> find(@RequestParam(value="$filter", required = false) String filter) throws TipoDocumentoInvalidoException {
+	public List<Documento> find(@RequestParam(value = "$filter", required = false) String filter)
+			throws TipoDocumentoInvalidoException {
 		try {
 			return documentoService.find(filter);
 		} catch (TipoDocumentoInvalidoException e) {
 			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
-		} 
+		}
 	}
-	
+
 	@GetMapping("/{id}")
 	public Documento findById(@PathVariable("id") Integer id) {
 		return documentoService.findById(id);
 	}
-	
+
 	@PostMapping(path = "/novo", consumes = "application/json")
-	public Documento save(@RequestBody Documento documento) throws DocumentoInvalidoException {
+	public Documento save(@RequestBody Documento documento)
+			throws DocumentoInvalidoException, TipoDocumentoInvalidoException {
 		try {
 			return documentoService.save(documento);
 		} catch (DocumentoInvalidoException e) {
 			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
 		}
 	}
 
@@ -57,8 +61,15 @@ public class DocumentoController {
 	}
 
 	@PutMapping(path = "/{id}/alterar")
-	public Documento updateById(@RequestBody Documento documento, @PathVariable("id") Integer id) {
-		return documentoService.updateById(id, documento);
+	public Documento updateById(@RequestBody Documento documento, @PathVariable("id") Integer id)
+			throws DocumentoInvalidoException, TipoDocumentoInvalidoException {
+		try {
+			return documentoService.updateById(id, documento);
+		} catch (DocumentoInvalidoException e) {
+			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
+		}
 	}
-	
+
 }

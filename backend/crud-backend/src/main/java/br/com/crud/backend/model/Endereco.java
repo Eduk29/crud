@@ -32,7 +32,7 @@ public class Endereco {
 	private Integer id;
 
 	@JsonIgnoreProperties(value = "enderecos", allowSetters = true)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinTable(name = "crud_pessoa_endereco", joinColumns = { @JoinColumn(name = "id_endereco") }, inverseJoinColumns = { @JoinColumn(name = "id_pessoa") })
 	private List<Pessoa> pessoa;
 	

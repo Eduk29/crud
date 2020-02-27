@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.crud.backend.exception.DocumentoInvalidoException;
 import br.com.crud.backend.exception.TipoDocumentoInvalidoException;
 import br.com.crud.backend.model.Documento;
+import br.com.crud.backend.model.Pessoa;
 import br.com.crud.backend.model.TipoDocumento;
 import br.com.crud.backend.repository.DocumentoRepository;
 import br.com.crud.backend.utils.ServiceUtils;
@@ -20,19 +21,19 @@ import br.com.crud.backend.utils.ServiceUtils;
 @Transactional
 public class DocumentoService {
 
+	// Attributes
 	@Autowired
 	private DocumentoRepository documentoRepository;
-
 	@Autowired
 	private TipoDocumentoService tipoDocumentoService;
-
 	@Autowired
 	private PessoaService pessoaService;
 
+	// Methods
 	public List<Documento> find(String filter) throws TipoDocumentoInvalidoException {
 		List<Documento> listDocumento = new ArrayList<Documento>();
 		String param = "";
-		
+
 		if (filter != null) {
 			filter = ServiceUtils.removeDoubleQuotes(filter);
 			param = ServiceUtils.getParamSearch(filter);
@@ -57,7 +58,7 @@ public class DocumentoService {
 			listDocumento = this.findAll();
 			break;
 		}
-		
+
 		return listDocumento;
 	}
 
@@ -82,10 +83,17 @@ public class DocumentoService {
 		}
 	}
 
-	public Documento save(Documento documento) throws DocumentoInvalidoException {
-		documento.setTipoDocumento(this.tipoDocumentoService.findTipoDocumentoById(documento.getTipoDocumento().getId()));
-		documento.setPessoa(this.pessoaService.findById(documento.getPessoa().getId()));
-		this.validateDocumento(documento.getTipoDocumento(), documento.getValorDocumento());
+	public Documento save(Documento documento) throws DocumentoInvalidoException, TipoDocumentoInvalidoException {
+		String typeToFind = documento.getTipoDocumento().getChave();
+		TipoDocumento tipoDocumento = this.tipoDocumentoService.findTipoDocumentoByType(typeToFind);
+		documento.setTipoDocumento(tipoDocumento);
+
+		this.validateDocumento(documento);
+
+		Integer idDocumentoOwner = documento.getPessoa().getId();
+		Pessoa ownerDocumento = this.pessoaService.findById(idDocumentoOwner);
+		documento.setPessoa(ownerDocumento);
+
 		return this.documentoRepository.save(documento);
 	}
 
@@ -94,30 +102,37 @@ public class DocumentoService {
 		return this.documentoRepository.remove(documentoToRemove);
 	}
 
-	public Documento updateById(Integer id, Documento documento) {
-		if (documento.getPessoa() == null) {
-			Documento documentoToUpdate = this.findById(id);
-			documento.setPessoa(documentoToUpdate.getPessoa());
-		}
-
+	public Documento updateById(Integer id, Documento documento)
+			throws TipoDocumentoInvalidoException, DocumentoInvalidoException {
 		documento.setId(id);
+
+		String typeToFind = documento.getTipoDocumento().getChave();
+		TipoDocumento tipoDocumento = this.tipoDocumentoService.findTipoDocumentoByType(typeToFind);
+		documento.setTipoDocumento(tipoDocumento);
+
+		this.validateDocumento(documento);
+
+		Integer idDocumentoOwner = documento.getPessoa().getId();
+		Pessoa ownerDocumento = this.pessoaService.findById(idDocumentoOwner);
+		documento.setPessoa(ownerDocumento);
+
 		return this.documentoRepository.update(documento);
 	}
 
 	public void validateDocumentos(List<Documento> documentoList) throws DocumentoInvalidoException {
 		for (int i = 0; i < documentoList.size(); i++) {
-			this.validateDocumento(documentoList.get(i).getTipoDocumento(), documentoList.get(i).getValorDocumento());
+			this.validateDocumento(documentoList.get(i));
 		}
 	}
 
-	private void validateDocumento(TipoDocumento type, String value) throws DocumentoInvalidoException {
-		if (type.getChave().equals("RG") && value.length() != 9) {
+	private void validateDocumento(Documento documentoToValidate) throws DocumentoInvalidoException {
+		if (documentoToValidate.getTipoDocumento().getChave().equals("CPF")
+				&& documentoToValidate.getValorDocumento().length() != 11) {
 			throw new DocumentoInvalidoException();
 		}
-		if (type.getChave().equals("CPF") && value.length() != 11) {
-			throw new DocumentoInvalidoException();
-		}
-		if (!type.getChave().equals("RG") && !type.getChave().equals("CPF")) {
+
+		if (documentoToValidate.getTipoDocumento().getChave().equals("RG")
+				&& documentoToValidate.getValorDocumento().length() != 9) {
 			throw new DocumentoInvalidoException();
 		}
 	}
