@@ -24,47 +24,47 @@ public class DocumentoRepository {
 	
 	// Methods
 	public List<Documento> findAll() {
-		return entityManager.createQuery("from Documento").getResultList();
+		return this.entityManager.createQuery("from Documento").getResultList();
 	}
 	
 	public Documento findById(Integer id) {
-		return entityManager.find(Documento.class, id);
+		return this.entityManager.find(Documento.class, id);
 	}
 	
 	public List<Documento> findByType (String typeToFind) {
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 		CriteriaQuery<Documento> criteriaQuery = criteriaBuilder.createQuery(Documento.class);
 		Root<Documento> documento = criteriaQuery.from(Documento.class);
 		
 		criteriaQuery.where(criteriaBuilder.equal(documento.<String>get("tipoDocumento"), typeToFind));
-		TypedQuery<Documento> typedQuery = entityManager.createQuery(criteriaQuery);
+		TypedQuery<Documento> typedQuery = this.entityManager.createQuery(criteriaQuery);
 		
 		return typedQuery.getResultList();
 	}
 	
 	public Documento findByValue (String valueToFind) throws NoResultException {
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 		CriteriaQuery<Documento> criteriaQuery = criteriaBuilder.createQuery(Documento.class);
 		Root<Documento> documento = criteriaQuery.from(Documento.class);
 		
 		criteriaQuery.where(criteriaBuilder.equal(documento.<String>get("valorDocumento"), valueToFind));
-		TypedQuery<Documento> typedQuery = entityManager.createQuery(criteriaQuery);
+		TypedQuery<Documento> typedQuery = this.entityManager.createQuery(criteriaQuery);
 		
 		return typedQuery.getSingleResult();
 	}
 	
 	public Documento save (Documento documento) {
-		entityManager.persist(documento);
+		this.entityManager.persist(documento);
 		return documento;
 	}
 	
 	public Documento remove (Documento documento) {
-		entityManager.remove(documento);
+		this.entityManager.remove(documento);
 		return documento;
 	}
 	
 	public Documento update (Documento documento) {
-		entityManager.merge(documento);
+		this.entityManager.merge(documento);
 		return documento;
 	}
 }

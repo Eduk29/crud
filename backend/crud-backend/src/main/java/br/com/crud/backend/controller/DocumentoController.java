@@ -32,7 +32,7 @@ public class DocumentoController {
 	public List<Documento> find(@RequestParam(value = "$filter", required = false) String filter)
 			throws TipoDocumentoInvalidoException {
 		try {
-			return documentoService.find(filter);
+			return this.documentoService.find(filter);
 		} catch (TipoDocumentoInvalidoException e) {
 			throw new TipoDocumentoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
 		}
@@ -40,14 +40,14 @@ public class DocumentoController {
 
 	@GetMapping("/{id}")
 	public Documento findById(@PathVariable("id") Integer id) {
-		return documentoService.findById(id);
+		return this.documentoService.findById(id);
 	}
 
 	@PostMapping(path = "/novo", consumes = "application/json")
 	public Documento save(@RequestBody Documento documento)
 			throws DocumentoInvalidoException, TipoDocumentoInvalidoException {
 		try {
-			return documentoService.save(documento);
+			return this.documentoService.save(documento);
 		} catch (DocumentoInvalidoException e) {
 			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
 		} catch (TipoDocumentoInvalidoException e) {
@@ -57,14 +57,14 @@ public class DocumentoController {
 
 	@DeleteMapping(path = "/{id}/remover")
 	public Documento removeById(@PathVariable("id") Integer id) {
-		return documentoService.removeById(id);
+		return this.documentoService.removeById(id);
 	}
 
 	@PutMapping(path = "/{id}/alterar")
 	public Documento updateById(@RequestBody Documento documento, @PathVariable("id") Integer id)
 			throws DocumentoInvalidoException, TipoDocumentoInvalidoException {
 		try {
-			return documentoService.updateById(id, documento);
+			return this.documentoService.updateById(id, documento);
 		} catch (DocumentoInvalidoException e) {
 			throw new DocumentoInvalidoException(ExceptionMessagesEnun.DOCUMENTO_ERROR.toString());
 		} catch (TipoDocumentoInvalidoException e) {
