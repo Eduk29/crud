@@ -23,57 +23,57 @@ public class EnderecoRepository {
 		
 		// Methods
 		public List<Endereco> findAll() {
-			return entityManager.createQuery("from Endereco").getResultList();
+			return this.entityManager.createQuery("from Endereco").getResultList();
 		}
 		
 		public Endereco save(Endereco endereco) {
-			entityManager.persist(endereco);
+			this.entityManager.persist(endereco);
 			return endereco;
 		}
 		
 		public Endereco remove(Endereco endereco) {
-			entityManager.remove(endereco);
+			this.entityManager.remove(endereco);
 			return endereco;
 		}
 		
 		public Endereco update(Endereco endereco) {
-			entityManager.merge(endereco);
+			this.entityManager.merge(endereco);
 			return endereco;
 		}
 		
 		public Endereco findById(Integer id) {
-			return entityManager.find(Endereco.class, id);
+			return this.entityManager.find(Endereco.class, id);
 		}
 		
 		public List<Endereco> findByCEP (String cepToFind) {
-			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 			CriteriaQuery<Endereco> criteriaQuery = criteriaBuilder.createQuery(Endereco.class);
 			Root<Endereco> endereco = criteriaQuery.from(Endereco.class);
 			
 			criteriaQuery.where(criteriaBuilder.equal(endereco.<String>get("cep"), cepToFind));
-			TypedQuery<Endereco> typedQuery = entityManager.createQuery(criteriaQuery);
+			TypedQuery<Endereco> typedQuery = this.entityManager.createQuery(criteriaQuery);
 			
 			return typedQuery.getResultList();
 		}
 		
 		public List<Endereco> findByEstado (String estadoToFind) {
-			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 			CriteriaQuery<Endereco> criteriaQuery = criteriaBuilder.createQuery(Endereco.class);
 			Root<Endereco> endereco = criteriaQuery.from(Endereco.class);
 			
 			criteriaQuery.where(criteriaBuilder.like(endereco.<String>get("estado"), "%" + estadoToFind + "%"));
-			TypedQuery<Endereco> typedQuery = entityManager.createQuery(criteriaQuery);
+			TypedQuery<Endereco> typedQuery = this.entityManager.createQuery(criteriaQuery);
 			
 			return typedQuery.getResultList();
 		}
 		
 		public List<Endereco> findByCidade (String cidadeToFind) {
-			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
 			CriteriaQuery<Endereco> criteriaQuery = criteriaBuilder.createQuery(Endereco.class);
 			Root<Endereco> endereco = criteriaQuery.from(Endereco.class);
 			
 			criteriaQuery.where(criteriaBuilder.like(endereco.<String>get("cidade"), "%" + cidadeToFind + "%"));
-			TypedQuery<Endereco> typedQuery = entityManager.createQuery(criteriaQuery);
+			TypedQuery<Endereco> typedQuery = this.entityManager.createQuery(criteriaQuery);
 			
 			return typedQuery.getResultList();
 		}

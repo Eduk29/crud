@@ -60,6 +60,6 @@ public class EnderecoController {
 
 	@PutMapping(path = "/{id}/alterar")
 	public Endereco updateById(@RequestBody Endereco endereco, @PathVariable("id") Integer id) {
-		return enderecoService.updateById(id, endereco);
+		return this.enderecoService.updateById(id, endereco);
 	}
 }

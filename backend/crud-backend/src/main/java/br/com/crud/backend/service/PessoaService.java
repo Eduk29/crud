@@ -45,22 +45,22 @@ public class PessoaService {
 		}
 
 		switch (ServiceUtils.getModeSearch(filter)) {
-		case "name":
-			pessoaList = this.findByName(param);
-			break;
-
-		case "gender":
-			pessoaList = this.findByGender(param);
-			break;
-
-		case "id":
-			Pessoa pessoaResult = this.findById(Integer.parseInt(param));
-			pessoaList.add(pessoaResult);
-			break;
-
-		default:
-			pessoaList = this.findAll();
-			break;
+			case "name":
+				pessoaList = this.findByName(param);
+				break;
+	
+			case "gender":
+				pessoaList = this.findByGender(param);
+				break;
+	
+			case "id":
+				Pessoa pessoaResult = this.findById(Integer.parseInt(param));
+				pessoaList.add(pessoaResult);
+				break;
+	
+			default:
+				pessoaList = this.findAll();
+				break;
 		}
 
 		return pessoaList;

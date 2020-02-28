@@ -27,62 +27,69 @@ public class EnderecoService {
 	private PessoaService pessoaService;
 
 	public List<Endereco> find(String filter) throws CepInvalidoException {
+		List<Endereco> enderecoList = new ArrayList<Endereco>();
+		String param = null;
+		
 		if (filter != null) {
 			filter = ServiceUtils.removeDoubleQuotes(filter);
+			param = ServiceUtils.getParamSearch(filter);
 		}
 
 		switch (ServiceUtils.getModeSearch(filter)) {
-		case "CEP":
-			return findByCep(ServiceUtils.getParamSearch(filter));
-
-		case "Estado":
-			return findByEstado(ServiceUtils.getParamSearch(filter));
-
-		case "Cidade":
-			return findByCidade(ServiceUtils.getParamSearch(filter));
-
-		case "Id":
-			Endereco endereco = findById(Integer.parseInt(ServiceUtils.getParamSearch(filter)));
-			List<Endereco> enderecoList = new ArrayList<Endereco>();
-			enderecoList.add(endereco);
-
-			return enderecoList;
-
-		default:
-			return findAll();
+			case "CEP":
+				enderecoList = this.findByCep(param); 
+				break;
+	
+			case "Estado":
+				enderecoList = this.findByEstado(param); 
+				break;
+	
+			case "Cidade":
+				enderecoList = this.findByCidade(param);
+				break;
+	
+			case "Id":
+				Endereco endereco = this.findById(Integer.parseInt(param));
+				enderecoList.add(endereco);
+				break;
+	
+			default:
+				enderecoList = this.findAll();
+				break;
 		}
+		return enderecoList;
 	}
 
 	public List<Endereco> findAll() {
-		return enderecoRepository.findAll();
+		return this.enderecoRepository.findAll();
 	}
 
 	public Endereco findById(Integer id) {
-		return enderecoRepository.findById(id);
+		return this.enderecoRepository.findById(id);
 	}
 
 	public List<Endereco> findByCep(String cepToFind) throws CepInvalidoException {
 		validateCep(cepToFind);
-		return enderecoRepository.findByCEP(cepToFind);
+		return this.enderecoRepository.findByCEP(cepToFind);
 	}
 
 	public List<Endereco> findByEstado(String estadoToFind) {
-		return enderecoRepository.findByEstado(estadoToFind);
+		return this.enderecoRepository.findByEstado(estadoToFind);
 	}
 
 	public List<Endereco> findByCidade(String cidadeToFind) {
-		return enderecoRepository.findByCidade(cidadeToFind);
+		return this.enderecoRepository.findByCidade(cidadeToFind);
 	}
 
 	public Endereco save(Endereco endereco) throws CepInvalidoException {
 		validateCep(endereco.getCep());
 		endereco.setPessoas(findPessoa(endereco.getPessoa()));
-		return enderecoRepository.save(endereco);
+		return this.enderecoRepository.save(endereco);
 	}
 	
 	public Endereco removeById(Integer id) {
 		Endereco enderecoToRemove = findById(id);
-		return enderecoRepository.remove(enderecoToRemove);
+		return this.enderecoRepository.remove(enderecoToRemove);
 	}
 	
 	public Endereco updateById(Integer id, Endereco endereco) {
@@ -92,14 +99,14 @@ public class EnderecoService {
 		}
 		
 		endereco.setId(id);
-		return enderecoRepository.update(endereco);
+		return this.enderecoRepository.update(endereco);
 	}
 
 	private List<Pessoa> findPessoa(List<Pessoa> pessoas) {
 		List<Pessoa> pessoaEnderecoList = new ArrayList<Pessoa>();
 
 		for (int i = 0; i < pessoas.size(); i++) {
-			Pessoa pessoaToAdd = pessoaService.findById(pessoas.get(i).getId());
+			Pessoa pessoaToAdd = this.pessoaService.findById(pessoas.get(i).getId());
 			pessoaEnderecoList.add(pessoaToAdd);
 		}
 
