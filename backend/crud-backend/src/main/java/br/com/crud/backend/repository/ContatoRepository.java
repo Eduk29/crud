@@ -53,7 +53,6 @@ public class ContatoRepository {
 	}
 	
 	public Contato update (Contato contato) {
-		entityManager.merge(contato);
-		return contato;
+		return entityManager.merge(contato);
 	}
 }

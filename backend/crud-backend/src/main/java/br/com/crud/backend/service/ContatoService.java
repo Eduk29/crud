@@ -86,16 +86,18 @@ public class ContatoService {
 	}
 
 	public Contato updateById(Integer id, Contato contatoUpdate) throws TipoContatoInvalidoException, ContatoInvalidoException {
-		String typeToFind = contatoUpdate.getTipoContato().getChave();
-		TipoContato tipoContato = tipoContatoService.findTipoDocumentoByType(typeToFind).get(0);
-		contatoUpdate.setTipoContato(tipoContato);
+		if (contatoUpdate.getPessoa() == null) {
+			Pessoa contatoOwner = this.contatoRepository.findById(id).getPessoa();
+			contatoUpdate.setPessoa(contatoOwner);
+		}
 		
-		validateContato(contatoUpdate);
-
-		Integer idContatoOwner = contatoUpdate.getPessoa().getId();
-		Pessoa ownerContato = pessoaService.findById(idContatoOwner);
-		contatoUpdate.setPessoa(ownerContato);
-
+		if (contatoUpdate.getTipoContato().getId() == null) {
+			String typeToFind = contatoUpdate.getTipoContato().getChave();
+			TipoContato tipoContato = tipoContatoService.findTipoDocumentoByType(typeToFind).get(0);
+			contatoUpdate.setTipoContato(tipoContato);
+		}
+		
+		contatoUpdate.setId(id);
 		return this.contatoRepository.update(contatoUpdate);
 	}
 
