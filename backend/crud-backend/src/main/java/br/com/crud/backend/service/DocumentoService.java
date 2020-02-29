@@ -102,21 +102,23 @@ public class DocumentoService {
 		return this.documentoRepository.remove(documentoToRemove);
 	}
 
-	public Documento updateById(Integer id, Documento documento)
+	public Documento updateById(Integer id, Documento documentoToUpdate)
 			throws TipoDocumentoInvalidoException, DocumentoInvalidoException {
-		documento.setId(id);
 
-		String typeToFind = documento.getTipoDocumento().getChave();
-		TipoDocumento tipoDocumento = this.tipoDocumentoService.findTipoDocumentoByType(typeToFind);
-		documento.setTipoDocumento(tipoDocumento);
+		if (documentoToUpdate.getPessoa() == null || documentoToUpdate.getPessoa().getId() == null) {
+			Pessoa documentoOwner = documentoRepository.findById(id).getPessoa();
+			documentoToUpdate.setPessoa(documentoOwner);
+		}
 
-		this.validateDocumento(documento);
+		if (documentoToUpdate.getTipoDocumento() != null && documentoToUpdate.getTipoDocumento().getId() == null) {
+			String typeToFind = documentoToUpdate.getTipoDocumento().getChave();
+			TipoDocumento tipoDocumento = tipoDocumentoService.findTipoDocumentoByType(typeToFind);
+			documentoToUpdate.setTipoDocumento(tipoDocumento);
+		}
 
-		Integer idDocumentoOwner = documento.getPessoa().getId();
-		Pessoa ownerDocumento = this.pessoaService.findById(idDocumentoOwner);
-		documento.setPessoa(ownerDocumento);
+		documentoToUpdate.setId(id);
 
-		return this.documentoRepository.update(documento);
+		return documentoRepository.update(documentoToUpdate);
 	}
 
 	public void validateDocumentos(List<Documento> documentoList) throws DocumentoInvalidoException {

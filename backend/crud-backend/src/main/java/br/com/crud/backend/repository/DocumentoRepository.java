@@ -64,7 +64,6 @@ public class DocumentoRepository {
 	}
 	
 	public Documento update (Documento documento) {
-		this.entityManager.merge(documento);
-		return documento;
+		return this.entityManager.merge(documento);
 	}
 }
