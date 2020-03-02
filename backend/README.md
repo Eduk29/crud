@@ -11,19 +11,26 @@ This application uses Java, Spring Framework, Maven and H2 Memory Database. And 
 
 This project was bootstrapped with [Spring Initializr](https://start.spring.io/)
 
-**1 -** Clone the project and install the dependencies:
+Clone the project and install the dependencies:
 
 ```bash
 $ git clone https://github.com/Eduk29/crud.git
-$ cd crud/backend
+$ cd crud
 $ mvn clean install
 ```
 
-**2 -** Keep hacking! :metal:
-
 ## Start Application
 
-To be Developed
+To start the backend application, go to folder that you did the repository clone and start backend application with:
+
+```bash
+$ cd crud-backend
+$ mvn spring-boot:run
+```
+
+To validate if everything went well, open your browser the People List at [http://localhost:8080/pessoas](http://localhost:8080/pessoas). You will see a json with a list of people in the database.
+
+Keep hacking! :metal:
 
 ## Developer :computer:
 
