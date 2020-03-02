@@ -26,7 +26,7 @@ public class TipoContatoRepository {
 		return entityManager.createQuery("from TipoContato").getResultList();
 	}
 	
-	public List<TipoContato> findByType(String typeToFind) {
+	public TipoContato findByType(String typeToFind) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<TipoContato> criteriaQuery = criteriaBuilder.createQuery(TipoContato.class);
 		Root<TipoContato> tipoContato = criteriaQuery.from(TipoContato.class);
@@ -34,7 +34,7 @@ public class TipoContatoRepository {
 		criteriaQuery.where(criteriaBuilder.equal(tipoContato.get("chave"), typeToFind));
 		TypedQuery<TipoContato> typedQuery = entityManager.createQuery(criteriaQuery);
 		
-		return typedQuery.getResultList();
+		return typedQuery.getSingleResult();
 	}
 	
 	public TipoContato findById(Integer id) {

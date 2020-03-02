@@ -33,11 +33,16 @@ public class PessoaController {
 
 	// API Methods
 	@GetMapping("") // Mapeia o endpoint '/' dentro do '/pessoas'
-	public List<Pessoa> find(@RequestParam(value = "$filter", required = false) String filter) throws GeneroInvalidoException {
+	public List<Pessoa> find(@RequestParam(value = "$filter", required = false) String filter)
+			throws GeneroInvalidoException, TipoContatoInvalidoException, CepInvalidoException {
 		try {
 			return this.pessoaService.find(filter);
 		} catch (GeneroInvalidoException e) {
 			throw new GeneroInvalidoException(ExceptionMessagesEnun.GENERO_ERROR.toString());
+		} catch (TipoDocumentoInvalidoException e) {
+			throw new TipoContatoInvalidoException(ExceptionMessagesEnun.TIPO_DOCUMENTO_ERROR.toString());
+		} catch (CepInvalidoException e) {
+			throw new CepInvalidoException(ExceptionMessagesEnun.CEP_ERROR.toString());
 		}
 	}
 

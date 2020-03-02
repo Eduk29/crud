@@ -68,7 +68,7 @@ public class ContatoService {
 
 	public Contato save(Contato contato) throws TipoContatoInvalidoException, ContatoInvalidoException {
 		String typeToFind = contato.getTipoContato().getChave();
-		TipoContato tipoContato = tipoContatoService.findTipoDocumentoByType(typeToFind).get(0);
+		TipoContato tipoContato = tipoContatoService.findTipoDocumentoByType(typeToFind);
 		contato.setTipoContato(tipoContato);
 		
 		validateContato(contato);
@@ -93,7 +93,7 @@ public class ContatoService {
 		
 		if (contatoUpdate.getTipoContato().getId() == null) {
 			String typeToFind = contatoUpdate.getTipoContato().getChave();
-			TipoContato tipoContato = tipoContatoService.findTipoDocumentoByType(typeToFind).get(0);
+			TipoContato tipoContato = tipoContatoService.findTipoDocumentoByType(typeToFind);
 			contatoUpdate.setTipoContato(tipoContato);
 		}
 		

@@ -18,6 +18,7 @@ import br.com.crud.backend.model.Contato;
 import br.com.crud.backend.model.Documento;
 import br.com.crud.backend.model.Endereco;
 import br.com.crud.backend.model.Pessoa;
+import br.com.crud.backend.model.TipoContato;
 import br.com.crud.backend.repository.PessoaRepository;
 import br.com.crud.backend.utils.ServiceUtils;
 
@@ -34,8 +35,14 @@ public class PessoaService {
 	private EnderecoService enderecoService;
 	@Autowired
 	private ContatoService contatoService;
+	@Autowired
+	private TipoDocumentoService tipoDocumentoService;
+	@Autowired
+	private TipoContatoService tipoContatoService;
 
-	public List<Pessoa> find(String filter) throws GeneroInvalidoException {
+	public List<Pessoa> find(String filter)
+			throws GeneroInvalidoException, TipoDocumentoInvalidoException, TipoContatoInvalidoException,
+			CepInvalidoException {
 		List<Pessoa> pessoaList = new ArrayList<Pessoa>();
 		String param = null;
 
@@ -45,22 +52,122 @@ public class PessoaService {
 		}
 
 		switch (ServiceUtils.getModeSearch(filter)) {
-			case "name":
-				pessoaList = this.findByName(param);
-				break;
-	
-			case "gender":
-				pessoaList = this.findByGender(param);
-				break;
-	
-			case "id":
-				Pessoa pessoaResult = this.findById(Integer.parseInt(param));
-				pessoaList.add(pessoaResult);
-				break;
-	
-			default:
-				pessoaList = this.findAll();
-				break;
+		case "name":
+			pessoaList = this.findByName(param);
+			break;
+
+		case "gender":
+			pessoaList = this.findByGender(param);
+			break;
+
+		case "id":
+			Pessoa pessoaResult = this.findById(Integer.parseInt(param));
+			pessoaList.add(pessoaResult);
+			break;
+
+		case "documentoValue":
+			Documento documento = this.documentoService.findByValue(param);
+
+			if (documento != null) {
+				Integer idToFind = documento.getPessoa().getId();
+				Pessoa pessoa = this.findById(idToFind);
+				pessoaList.add(pessoa);
+			}
+			break;
+
+		case "tipoDocumento":
+			List<Documento> documentoList = this.tipoDocumentoService.findTipoDocumentoByType(param).getDocumentos();
+
+			for (int i = 0; i < documentoList.size(); i++) {
+				Integer idToFind = documentoList.get(i).getPessoa().getId();
+				Pessoa pessoa = this.findById(idToFind);
+				pessoaList.add(pessoa);
+			}
+			break;
+
+		case "documentoId":
+			Documento documentoToFindById = this.documentoService.findById(Integer.parseInt(param));
+
+			if (documentoToFindById != null) {
+				Integer idToFind = documentoToFindById.getPessoa().getId();
+				Pessoa pessoa = this.findById(idToFind);
+				pessoaList.add(pessoa);
+			}
+			break;
+
+		case "contatoValue":
+			List<Contato> contatoList = this.contatoService.findByValue(param);
+
+			for (int i = 0; i < contatoList.size(); i++) {
+				Integer idToFind = contatoList.get(i).getPessoa().getId();
+				Pessoa pessoa = this.findById(idToFind);
+				pessoaList.add(pessoa);
+			}
+			break;
+
+		case "tipoContato":
+			List<Contato> contatoListToFind = this.tipoContatoService.findTipoDocumentoByType(param).getContatos();
+
+			for (int i = 0; i < contatoListToFind.size(); i++) {
+				Integer idToFind = contatoListToFind.get(i).getPessoa().getId();
+				Pessoa pessoa = this.findById(idToFind);
+				pessoaList.add(pessoa);
+			}
+			break;
+			
+		case "idContato": 
+			Contato contato = this.contatoService.findById(Integer.parseInt(param));
+			
+			if (contato != null) {
+				Integer idToFind = contato.getPessoa().getId();
+				Pessoa pessoa = this.findById(idToFind);
+				pessoaList.add(pessoa);
+			}
+			break;
+			
+		case "CEP":
+			List<Endereco> enderecoList = this.enderecoService.findByCep(param);
+			
+			for (int i = 0; i < enderecoList.size(); i++) {
+				List<Pessoa> pessoaListWithSameCEP = enderecoList.get(i).getPessoa();
+				for (int j = 0; j < pessoaListWithSameCEP.size(); j++) {
+					Integer idToFind = pessoaListWithSameCEP.get(j).getId();
+					Pessoa pessoa = this.findById(idToFind);
+					pessoaList.add(pessoa);
+				}
+			}
+			break;
+			
+		case "Cidade":
+			List<Endereco> enderecoListWithSameCity = this.enderecoService.findByCidade(param);
+			
+			for (int i = 0; i < enderecoListWithSameCity.size(); i++) {
+				List<Pessoa> pessoaListWithSameCity = enderecoListWithSameCity.get(i).getPessoa();
+				for (int j = 0; j < pessoaListWithSameCity.size(); j++) {
+					Integer idToFind = pessoaListWithSameCity.get(j).getId();
+					Pessoa pessoa = this.findById(idToFind);
+					pessoaList.add(pessoa);
+				}
+			}
+			break;
+			
+		case "Estado":
+			List<Endereco> enderecoListWithSameState = this.enderecoService.findByEstado(param);
+			
+			for (int i = 0; i < enderecoListWithSameState.size(); i++) {
+				List<Pessoa> pessoaListWithSameState = enderecoListWithSameState.get(i).getPessoa();
+				for (int j = 0; j < pessoaListWithSameState.size(); j++) {
+					Integer idToFind = pessoaListWithSameState.get(j).getId();
+					Pessoa pessoa = this.findById(idToFind);
+					pessoaList.add(pessoa);
+				}
+			}
+			break;
+			
+
+		default:
+			pessoaList = this.findAll();
+			break;
 		}
 
 		return pessoaList;
@@ -183,10 +290,10 @@ public class PessoaService {
 			this.contatoService.updateById(contatosToUpdateList.get(i).getId(), contatosToUpdateList.get(i));
 		}
 	}
-	
+
 	private void updateEnderecosPessoa(List<Endereco> enderecosToUpdateList, Integer idOwner) {
 		for (int i = 0; i < enderecosToUpdateList.size(); i++) {
-			this.enderecoService.updateById(enderecosToUpdateList.get(i).getId(), enderecosToUpdateList.get(i));	
+			this.enderecoService.updateById(enderecosToUpdateList.get(i).getId(), enderecosToUpdateList.get(i));
 		}
 	}
 
