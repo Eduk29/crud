@@ -1,0 +1,13 @@
+<div *ngIf="userAuthorized; else unauthorizedUser">
+  <button mat-button aria-label="Example icon-button with a heart icon">
+    <mat-icon>account_circle</mat-icon>
+    <span class="mx-2">Nome Usuário</span>
+  </button>
+</div>
+
+<ng-template #unauthorizedUser>
+  <button mat-button aria-label="Example icon-button with a heart icon">
+    <span class="mx-2">Login</span>
+  </button>
+</ng-template>
+
