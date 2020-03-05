@@ -2,6 +2,6 @@ export class Contato {
     id?: number;
     idPessoa?: number;
     idTipoContato?: number;
-    isPrincipal: boolean;
-    valor: string;
+    isPrincipal?: boolean;
+    valor?: string;
 }

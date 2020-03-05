@@ -1,4 +1,5 @@
-import { Contato } from "./Contato.model";
+import { Contato } from './Contato.model';
+import { Documento } from './Documento.model';
 
 export class Pessoa {
   contato?: Array<Contato>;
