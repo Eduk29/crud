@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   getPessoa(): void {
     this.pessoaService
-      .listarPessoas()
+      .listPessoas()
       .subscribe((response: Array<Pessoa>) => {
         console.log('Response: ', response);
       });
