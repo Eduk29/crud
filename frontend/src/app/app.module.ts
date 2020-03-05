@@ -5,11 +5,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { AngularMaterialModule } from './angular-material-module';
-import { AuthenticationControlComponent } from './components/authentication-control/authentication-control.component';
-import { HomeComponent } from './components/home/home.component';
+import { AuthenticationControlComponent } from './authentication-control/authentication-control.component';
+import { HomeComponent } from './home/home.component';
 import { PessoaService } from './services/pessoa.service';
+import { PessoaModule } from './pessoa/pessoa.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { PessoaService } from './services/pessoa.service';
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    PessoaModule
   ],
   providers: [PessoaService],
   bootstrap: [AppComponent]
