@@ -12,7 +12,7 @@ export class PessoaService {
     this.urlAPI = `${environment.urlApi}/pessoas`;
   }
 
-  listarPessoas(): Observable<Array<Pessoa>> {
+  listPessoas(): Observable<Array<Pessoa>> {
     return this.httpRequest.get<Array<Pessoa>>(this.urlAPI);
   }
 }
