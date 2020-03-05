@@ -4,15 +4,17 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { AngularMaterialModule } from './angular-material-module';
-import { AuthenticationControlComponent } from './authentication-control/authentication-control.component';
+import { AuthenticationControlComponent } from './components/authentication-control/authentication-control.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AuthenticationControlComponent
+    AuthenticationControlComponent,
+    HomeComponent
   ],
   imports: [
     AngularMaterialModule,
