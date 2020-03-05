@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PessoaService } from 'src/app/services/pessoa.service';
+import { Pessoa } from 'src/app/models/Pessoa.model';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor( private pessoaService: PessoaService) { }
 
   ngOnInit() {
+    this.getPessoa();
+  }
+
+  getPessoa(): void {
+    this.pessoaService
+      .listarPessoas()
+      .subscribe((response: Array<Pessoa>) => {
+        console.log('Response: ', response);
+      });
   }
 
 }
