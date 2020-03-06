@@ -1,6 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Pessoa } from 'src/app/models/Pessoa.model';
+import { PessoaService } from 'src/app/services/pessoa.service';
+import { Contato } from 'src/app/models/Contato.model';
 
 @Component({
   selector: 'app-pessoa-list',
@@ -10,42 +16,36 @@ import { Pessoa } from 'src/app/models/Pessoa.model';
 export class PessoaListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  pessoaList: Array<Pessoa>;
+  displayedColumns: string[] = ['id', 'name', 'gender', 'contact', 'actions'];
+  dataSource = new MatTableDataSource();
 
-  constructor() {}
+  constructor(private pessoaService: PessoaService) {
+    this.getPessoa();
+  }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
   }
-}
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+  getPessoa(): void {
+    this.pessoaService.listPessoas().subscribe((response: Array<Pessoa>) => {
+      this.pessoaList = response;
+      this.dataSource.data = response;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' }
-];
+  displayPrincipalContact(contatos: Array<Contato>): Contato {
+    const contatoToDisplay = contatos.find((contato: Contato) => contato.isPrincipal === true);
+    return contatoToDisplay;
+  }
+
+  editContact(): void {
+    console.log('Edit Contact');
+  }
+
+  detailContact(): void {
+    console.log('Detail Contact');
+  }
+}

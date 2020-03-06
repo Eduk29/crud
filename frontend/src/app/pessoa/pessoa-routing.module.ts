@@ -8,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: PessoaComponent
   },
+  {
+    path: '/detail',
+    component: PessoaDetailComponent
+  },
 ];
 
 @NgModule({
