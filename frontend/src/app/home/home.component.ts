@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PessoaService } from 'src/app/services/pessoa.service';
-import { Pessoa } from 'src/app/models/Pessoa.model';
 
 @Component({
   selector: 'app-home',
@@ -9,18 +7,7 @@ import { Pessoa } from 'src/app/models/Pessoa.model';
 })
 export class HomeComponent implements OnInit {
 
-  constructor( private pessoaService: PessoaService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.getPessoa();
-  }
-
-  getPessoa(): void {
-    this.pessoaService
-      .listPessoas()
-      .subscribe((response: Array<Pessoa>) => {
-        console.log('Response: ', response);
-      });
-  }
-
+  ngOnInit() { }
 }
