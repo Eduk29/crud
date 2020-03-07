@@ -1,0 +1,50 @@
+@import "~@angular/material/theming";
+
+$mat-light-theme-background: (
+  status-bar: map_get($mat-blue-grey, 300),
+  app-bar: map_get($mat-blue-grey, 100),
+  background: map_get($mat-blue-grey, 50),
+  hover: map_get($mat-blue-grey, 50),
+  card: white,
+  dialog: white,
+  disabled-button: rgba(transparent, 0.5),
+  raised-button: white,
+  focused-button: $dark-focused,
+  selected-button: map_get($mat-blue-grey, 300),
+  selected-disabled-button: map_get($mat-blue-grey, 400),
+  disabled-button-toggle: map_get($mat-blue-grey, 200),
+  unselected-chip: map_get($mat-blue-grey, 300),
+  disabled-list-option: map_get($mat-blue-grey, 200)
+);
+
+$mat-light-theme-foreground: (
+  base: map_get($mat-blue-grey, 900),
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: map_get($mat-blue-grey, 200),
+  disabled-text: $dark-disabled-text,
+  hint-text: $dark-disabled-text,
+  secondary-text: $dark-secondary-text,
+  icon: map_get($mat-blue-grey, 400),
+  icons: map_get($mat-blue-grey, 400),
+  text: map_get($mat-blue-grey, 900),
+  slider-min: rgba(black, 0.87),
+  slider-off: rgba(black, 0.26),
+  slider-off-active: rgba(rgba(0, 0, 0, 0.219), 0.38)
+);
+
+@include mat-core();
+
+// TODO: AJUSTAR CORES
+$crud-theme-primary: mat-palette($mat-indigo);
+$crud-theme-accent: mat-palette($mat-light-blue);
+$crud-theme-warn: mat-palette($mat-red, A700, 400, 900);
+
+$crud-theme: mat-light-theme(
+  $crud-theme-primary,
+  $crud-theme-accent,
+  $crud-theme-warn
+);
+
+@include angular-material-theme($crud-theme);
