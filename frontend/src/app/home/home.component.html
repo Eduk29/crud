@@ -1,2 +1,39 @@
-<app-masthead title="CRUD Study System" subtitle="A simple crud application for study cases and some other stuffs">
+<app-masthead
+  title="CRUD Study System"
+  subtitle="A simple crud application for study cases and some other stuffs"
+>
 </app-masthead>
+
+<div class="container my-5">
+  <div class="row">
+    <span class="mat-headline">
+      Please select one of the modules to open the application:
+    </span>
+  </div>
+
+  <div class="row my-3">
+    <div class="col-4">
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="icon">group</mat-icon>
+          <mat-card-title>Person Control</mat-card-title>
+        </mat-card-header>
+        <img
+          mat-card-image
+          src="../../assets/person-module.jpg"
+          alt="Photo of Person Module"
+        />
+        <mat-card-content>
+          <p>
+            Manage the People registered in the system. Perform searches, make
+            new entries, view and edit information of items registered in the
+            system or remove entries.
+          </p>
+        </mat-card-content>
+        <mat-card-actions class="d-flex flex-row justify-content-end mx-4">
+          <button (click)="redirectToPessoaModule()" mat-button>Access</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
