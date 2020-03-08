@@ -31,7 +31,7 @@
           </p>
         </mat-card-content>
         <mat-card-actions class="d-flex flex-row justify-content-end mx-4">
-          <button (click)="redirectToPessoaModule()" mat-button>Access</button>
+          <button [routerLink]="['..', 'pessoa']" mat-button>Access</button>
         </mat-card-actions>
       </mat-card>
     </div>
