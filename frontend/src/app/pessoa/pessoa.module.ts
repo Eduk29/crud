@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PessoaComponent } from './pessoa.component';
 import { PessoaListComponent } from './pessoa-list/pessoa-list.component';
 import { PessoaDetailComponent } from './pessoa-detail/pessoa-detail.component';
+import { PessoaRoutingModule } from './pessoa-routing.module';
 import {
   MatPaginatorModule,
   MatIconModule,
@@ -18,7 +19,8 @@ import {
     MatPaginatorModule,
     MatTableModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    PessoaRoutingModule
   ],
   exports: [PessoaListComponent, PessoaDetailComponent]
 })

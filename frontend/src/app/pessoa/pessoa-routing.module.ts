@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { PessoaComponent } from './pessoa.component';
 import { PessoaDetailComponent } from './pessoa-detail/pessoa-detail.component';
 
@@ -10,7 +11,7 @@ const routes: Routes = [
     component: PessoaComponent
   },
   {
-    path: '/detail',
+    path: 'detail',
     component: PessoaDetailComponent
   },
 ];
