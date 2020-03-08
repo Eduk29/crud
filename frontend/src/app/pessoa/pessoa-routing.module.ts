@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PessoaComponent } from './pessoa.component';
+import { PessoaDetailComponent } from './pessoa-detail/pessoa-detail.component';
 
 
 const routes: Routes = [
@@ -18,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PessoaRoutingModule {}
+export class PessoaRoutingModule { }

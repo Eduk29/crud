@@ -11,7 +11,7 @@ import { AuthenticationControlComponent } from './authentication-control/authent
 import { HomeComponent } from './home/home.component';
 import { PessoaService } from './services/pessoa.service';
 import { PessoaModule } from './pessoa/pessoa.module';
-import { PessoaDetailComponent } from './pessoa/pessoa-detail/pessoa-detail.component';
+import { MastheadComponent } from './masthead/masthead.component';
 
 
 @NgModule({
@@ -20,7 +20,7 @@ import { PessoaDetailComponent } from './pessoa/pessoa-detail/pessoa-detail.comp
     NavbarComponent,
     AuthenticationControlComponent,
     HomeComponent,
-    PessoaDetailComponent
+    MastheadComponent
   ],
   imports: [
     AngularMaterialModule,
