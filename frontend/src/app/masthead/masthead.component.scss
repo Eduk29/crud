@@ -1,0 +1,19 @@
+@import "../theme/base.scss";
+
+$primary: map-get($crud-theme, primary);
+$accent: map-get($crud-theme, accent);
+$warn: map-get($crud-theme, warn);
+$background: map-get($crud-theme, background);
+$foreground: map-get($crud-theme, foreground);
+
+.masthead {
+  background-color: mat-color($primary, A100);
+  height: 30vh;
+  min-height: 20vh;
+  width: 100%;
+}
+
+.mat-display-1,
+.mat-subtitle-1 {
+  color: white;
+}
