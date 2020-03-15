@@ -1,0 +1,21 @@
+<mat-card>
+  <form class="d-flex justify-content-between" (ngSubmit)="search()">
+
+    <mat-form-field>
+      <mat-label>Search Mode</mat-label>
+      <mat-select name="search-mode-select" [(ngModel)]="filter.searchMode">
+        <mat-option *ngFor="let option of searchModeOptions" [value]="option">
+          {{option.valor}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-50">
+      <mat-label>Search</mat-label>
+      <input name="search-value" matInput [(ngModel)]="filter.searchValue">
+    </mat-form-field>
+
+    <button type="submit" mat-button>Search</button>
+    <button *ngIf="false" type="button" color="primary" mat-button>Advanced Search</button>
+  </form>
+</mat-card>
