@@ -1,3 +1,11 @@
-<p>
-  pessoa works!
-</p>
+<app-masthead title="CRUD Study System" subtitle="Person Control">
+</app-masthead>
+
+<div class="container my-5">
+  <app-search-bar [filter]="filter" [searchModeOptions]="searchModeOptions" (searchEvent)="search($event)">
+  </app-search-bar>
+
+  <div class="my-4">
+    <app-pessoa-list></app-pessoa-list>
+  </div>
+</div>
