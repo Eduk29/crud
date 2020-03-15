@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<div *ngIf="pessoaList.length > 0" class=" mat-elevation-z8">
   <table class="w-100" mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="id">

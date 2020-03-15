@@ -5,7 +5,8 @@
   <app-search-bar [filter]="filter" [searchModeOptions]="searchModeOptions" (searchEvent)="search($event)">
   </app-search-bar>
 
-  <div class="my-4">
-    <app-pessoa-list></app-pessoa-list>
+  <div *ngIf="!!pessoaList" class="my-4">
+    <app-pessoa-list [(pessoaList)]="pessoaList">
+    </app-pessoa-list>
   </div>
 </div>

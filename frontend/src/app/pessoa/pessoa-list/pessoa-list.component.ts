@@ -1,7 +1,13 @@
 import {
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
+  Input,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Pessoa } from 'src/app/models/Pessoa.model';
@@ -11,29 +17,24 @@ import { Contato } from 'src/app/models/Contato.model';
 @Component({
   selector: 'app-pessoa-list',
   templateUrl: './pessoa-list.component.html',
-  styleUrls: ['./pessoa-list.component.scss']
+  styleUrls: ['./pessoa-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PessoaListComponent implements OnInit {
+export class PessoaListComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() pessoaList: Array<Pessoa>;
 
-  pessoaList: Array<Pessoa>;
   displayedColumns: string[] = ['id', 'name', 'gender', 'contact', 'actions'];
   dataSource = new MatTableDataSource();
 
-  constructor(private pessoaService: PessoaService) {
-    this.getPessoa();
-  }
+  constructor(private ref: ChangeDetectorRef) { }
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  getPessoa(): void {
-    this.pessoaService.listPessoas().subscribe((response: Array<Pessoa>) => {
-      this.pessoaList = response;
-      this.dataSource.data = response;
-      this.dataSource.paginator = this.paginator;
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    this.dataSource.data = changes.pessoaList.currentValue;
   }
 
   displayPrincipalContact(contatos: Array<Contato>): Contato {
