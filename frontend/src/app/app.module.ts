@@ -11,16 +11,14 @@ import { AuthenticationControlComponent } from './authentication-control/authent
 import { HomeComponent } from './home/home.component';
 import { PessoaService } from './services/pessoa.service';
 import { PessoaModule } from './pessoa/pessoa.module';
-import { MastheadComponent } from './masthead/masthead.component';
-
+import { MastheadModule } from './masthead/masthead.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     AuthenticationControlComponent,
-    HomeComponent,
-    MastheadComponent
+    HomeComponent
   ],
   imports: [
     AngularMaterialModule,
@@ -28,6 +26,7 @@ import { MastheadComponent } from './masthead/masthead.component';
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    MastheadModule,
     PessoaModule
   ],
   providers: [PessoaService],
