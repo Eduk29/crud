@@ -45,7 +45,7 @@ export class PessoaComponent implements OnInit {
     }
 
     this.pessoaService
-      .listPessoasByFilter(this.filter.searchMode.chave.toLowerCase(), this.filter.searchValue)
+      .listPessoasByFilter(this.filter)
       .subscribe(
         (response: Array<Pessoa>) => {
           this.pessoaList = response;

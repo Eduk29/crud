@@ -17,7 +17,10 @@ export class PessoaService {
       .get<Array<Pessoa>>(this.urlAPI);
   }
 
-  listPessoasByFilter(searchMode: string, searchValue: string): Observable<Array<Pessoa>> {
+  listPessoasByFilter(filter: object): Observable<Array<Pessoa>> {
+
+    const { searchMode } = filter;
+
     return this.httpRequest
       .get<Array<Pessoa>>(`${this.urlAPI}?$filter="${searchMode}=${searchValue}"`)
   }
