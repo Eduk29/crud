@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
+import { ChaveValor } from './../models/ChaveValor.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Pessoa } from '../models/Pessoa.model';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+import { Pessoa } from '../models/Pessoa.model';
+import { FilterPessoa } from './../models/FilterPessoa.model';
 
 @Injectable()
 export class PessoaService {
@@ -17,11 +20,14 @@ export class PessoaService {
       .get<Array<Pessoa>>(this.urlAPI);
   }
 
-  listPessoasByFilter(filter: object): Observable<Array<Pessoa>> {
+  listPessoasByFilter(filter: FilterPessoa): Observable<Array<Pessoa>> {
 
-    const { searchMode } = filter;
+    const { searchMode, searchValue } = filter;
+
+
+    console.log("SearchValue: ", searchValue);
 
     return this.httpRequest
-      .get<Array<Pessoa>>(`${this.urlAPI}?$filter="${searchMode}=${searchValue}"`)
+      .get<Array<Pessoa>>(`${this.urlAPI}?$filter="${searchMode.valor.toLowerCase()}=${searchValue}"`);
   }
 }
