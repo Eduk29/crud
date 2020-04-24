@@ -43,7 +43,7 @@ public class ContatoService {
 			contatoList.add(contato);
 			break;
 
-		case "Value":
+		case "contact":
 			contatoList = findByValue(ServiceUtils.getParamSearch(filter));
 			break;
 

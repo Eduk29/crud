@@ -22,8 +22,8 @@ import br.com.crud.backend.model.TipoContato;
 import br.com.crud.backend.repository.PessoaRepository;
 import br.com.crud.backend.utils.ServiceUtils;
 
-@Service // Expoe a classe como um serviço do spring
-@Transactional // Marca a classe com gerenciamento de transações (SPRING)
+@Service // Expoe a classe como um serviï¿½o do spring
+@Transactional // Marca a classe com gerenciamento de transaï¿½ï¿½es (SPRING)
 public class PessoaService {
 
 	// Attributes
@@ -62,7 +62,11 @@ public class PessoaService {
 
 		case "id":
 			Pessoa pessoaResult = this.findById(Integer.parseInt(param));
-			pessoaList.add(pessoaResult);
+			
+			if (pessoaResult != null) {
+				pessoaList.add(pessoaResult);	
+			}
+
 			break;
 
 		case "documentoValue":
@@ -95,7 +99,7 @@ public class PessoaService {
 			}
 			break;
 
-		case "contatoValue":
+		case "contact":
 			List<Contato> contatoList = this.contatoService.findByValue(param);
 
 			for (int i = 0; i < contatoList.size(); i++) {

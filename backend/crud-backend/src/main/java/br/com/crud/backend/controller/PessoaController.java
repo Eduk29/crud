@@ -28,7 +28,7 @@ import br.com.crud.backend.service.PessoaService;
 public class PessoaController {
 
 	// Attributes
-	@Autowired // Injeta o serviço declarado
+	@Autowired // Injeta o serviï¿½o declarado
 	private PessoaService pessoaService;
 
 	// API Methods
