@@ -24,10 +24,7 @@ export class PessoaService {
 
     const { searchMode, searchValue } = filter;
 
-
-    console.log("SearchValue: ", searchValue);
-
     return this.httpRequest
-      .get<Array<Pessoa>>(`${this.urlAPI}?$filter="${searchMode.valor.toLowerCase()}=${searchValue}"`);
+      .get<Array<Pessoa>>(`${this.urlAPI}?$filter="${searchMode.chave.toLowerCase()}=${searchValue}"`);
   }
 }

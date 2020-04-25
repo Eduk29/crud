@@ -6,15 +6,19 @@ import { Component, OnInit } from '@angular/core';
 const SEARCH_MODE_OPTION_LIST: Array<ChaveValor> = [
   {
     chave: 'NAME',
-    valor: 'Name'
+    valor: 'Nome'
   },
   {
-    chave: 'CPF',
-    valor: 'CPF'
+    chave: 'CONTACT',
+    valor: 'Contato'
   },
   {
-    chave: 'RG',
-    valor: 'RG'
+    chave: 'GENDER',
+    valor: 'Gênero'
+  },
+  {
+    chave: 'ID',
+    valor: 'Id'
   }
 ]
 
@@ -50,7 +54,7 @@ export class PessoaComponent implements OnInit {
         (response: Array<Pessoa>) => {
           this.pessoaList = response;
         }
-      )
+      );
   }
 
   getPessoa(): void {

@@ -38,8 +38,7 @@ export class PessoaListComponent implements AfterViewInit, OnChanges {
   }
 
   displayPrincipalContact(contatos: Array<Contato>): Contato {
-    const contatoToDisplay = contatos.find((contato: Contato) => contato.isPrincipal === true);
-    return contatoToDisplay;
+    return contatos.find((contato: Contato) => contato.isPrincipal === true);
   }
 
   editContact(): void {
