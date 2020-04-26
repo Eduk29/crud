@@ -13,6 +13,7 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Pessoa } from 'src/app/models/Pessoa.model';
 import { PessoaService } from 'src/app/services/pessoa.service';
 import { Contato } from 'src/app/models/Contato.model';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pessoa-list',
@@ -27,7 +28,9 @@ export class PessoaListComponent implements AfterViewInit, OnChanges {
   displayedColumns: string[] = ['id', 'name', 'gender', 'contact', 'actions'];
   dataSource = new MatTableDataSource();
 
-  constructor(private ref: ChangeDetectorRef) { }
+  constructor(
+    private ref: ChangeDetectorRef,
+    private router: Router) { }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -41,11 +44,11 @@ export class PessoaListComponent implements AfterViewInit, OnChanges {
     return contatos.find((contato: Contato) => contato.isPrincipal === true);
   }
 
-  editContact(): void {
-    console.log('Edit Contact');
+  editContact(item: Pessoa): void {
+    this.router.navigate(['pessoa', item.id, 'edit']);
   }
 
-  detailContact(): void {
-    console.log('Detail Contact');
+  detailContact(pessoa: Pessoa): void {
+    this.router.navigate(['pessoa', pessoa.id, 'detail']);
   }
 }

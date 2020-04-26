@@ -11,7 +11,11 @@ const routes: Routes = [
     component: PessoaComponent
   },
   {
-    path: 'detail',
+    path: ':id/edit',
+    component: PessoaDetailComponent
+  },
+  {
+    path: ':id/detail',
     component: PessoaDetailComponent
   },
 ];
