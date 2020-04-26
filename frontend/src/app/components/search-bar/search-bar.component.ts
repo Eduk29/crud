@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ChaveValor } from '../models/ChaveValor.model';
+import { ChaveValor } from '../../models/ChaveValor.model';
 
 
 @Component({
