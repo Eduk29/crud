@@ -5,13 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { AngularMaterialModule } from './angular-material-module';
-import { AuthenticationControlComponent } from './authentication-control/authentication-control.component';
+import { AuthenticationControlComponent } from './components/authentication-control/authentication-control.component';
 import { HomeComponent } from './home/home.component';
 import { PessoaService } from './services/pessoa.service';
 import { PessoaModule } from './pessoa/pessoa.module';
-import { MastheadModule } from './masthead/masthead.module';
+import { MastheadModule } from './components/masthead/masthead.module';
 
 @NgModule({
   declarations: [
