@@ -1,17 +1,18 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AngularMaterialModule } from './angular-material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { AngularMaterialModule } from './angular-material-module';
 import { AuthenticationControlComponent } from './components/authentication-control/authentication-control.component';
-import { HomeComponent } from './home/home.component';
-import { PessoaService } from './services/pessoa.service';
-import { PessoaModule } from './pessoa/pessoa.module';
 import { MastheadModule } from './components/masthead/masthead.module';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { PessoaFormModule } from './components/pessoa-form/pessoa-form.module';
+import { HomeComponent } from './pages/home/home.component';
+import { PessoaModule } from './pages/pessoa/pessoa.module';
+import { PessoaService } from './services/pessoa.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MastheadModule } from './components/masthead/masthead.module';
     BrowserModule,
     HttpClientModule,
     MastheadModule,
+    PessoaFormModule,
     PessoaModule
   ],
   providers: [PessoaService],

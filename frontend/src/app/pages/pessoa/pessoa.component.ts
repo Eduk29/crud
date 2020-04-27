@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ChaveValor } from './../models/ChaveValor.model';
-import { Pessoa } from './../models/Pessoa.model';
-import { PessoaService } from './../services/pessoa.service';
+import { ChaveValor } from '../../models/ChaveValor.model';
+import { Pessoa } from '../../models/Pessoa.model';
+import { PessoaService } from '../../services/pessoa.service';
 
 const SEARCH_MODE_OPTION_LIST: Array<ChaveValor> = [
   {

@@ -1,17 +1,14 @@
-import { SearchBarModule } from '../components/search-bar/search-bar.module';
-import { MastheadModule } from '../components/masthead/masthead.module';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PessoaComponent } from './pessoa.component';
-import { PessoaListComponent } from './pessoa-list/pessoa-list.component';
+import { NgModule } from '@angular/core';
+import { MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule } from '@angular/material';
+
+import { MastheadModule } from '../../components/masthead/masthead.module';
+import { SearchBarModule } from '../../components/search-bar/search-bar.module';
+import { PessoaFormModule } from './../../components/pessoa-form/pessoa-form.module';
 import { PessoaDetailComponent } from './pessoa-detail/pessoa-detail.component';
+import { PessoaListComponent } from './pessoa-list/pessoa-list.component';
 import { PessoaRoutingModule } from './pessoa-routing.module';
-import {
-  MatPaginatorModule,
-  MatIconModule,
-  MatTableModule,
-  MatButtonModule
-} from '@angular/material';
+import { PessoaComponent } from './pessoa.component';
 
 
 @NgModule({
@@ -23,6 +20,7 @@ import {
     MatTableModule,
     MatIconModule,
     MatButtonModule,
+    PessoaFormModule,
     PessoaRoutingModule,
     SearchBarModule
   ],
