@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatInputModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
 
 import { PessoaFormComponent } from './pessoa-form.component';
 
@@ -9,7 +9,9 @@ import { PessoaFormComponent } from './pessoa-form.component';
   declarations: [PessoaFormComponent],
   imports: [
     CommonModule,
+    MatCheckboxModule,
     MatInputModule,
+    MatSelectModule,
     ReactiveFormsModule
   ],
   exports: [PessoaFormComponent]

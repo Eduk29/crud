@@ -7,12 +7,14 @@ import { AngularMaterialModule } from './angular-material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationControlComponent } from './components/authentication-control/authentication-control.component';
+import { DocumentFormModule } from './components/document-form/document-form.module';
 import { MastheadModule } from './components/masthead/masthead.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PessoaFormModule } from './components/pessoa-form/pessoa-form.module';
 import { HomeComponent } from './pages/home/home.component';
 import { PessoaModule } from './pages/pessoa/pessoa.module';
 import { PessoaService } from './services/pessoa.service';
+
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { PessoaService } from './services/pessoa.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
+    DocumentFormModule,
     HttpClientModule,
     MastheadModule,
     PessoaFormModule,

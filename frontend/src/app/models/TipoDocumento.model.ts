@@ -1,7 +1,7 @@
 import { Documento } from './Documento.model';
 
 export class TipoDocumento {
-  chave?: number;
+  chave?: string;
   documentos?: Array<Documento>;
   id?: number;
   valor?: string;
