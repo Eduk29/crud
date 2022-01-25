@@ -24,14 +24,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class PessoaListComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @Input() pessoaList: Array<Pessoa>;
+  @Input() pessoaList: Pessoa[] = [];
 
   displayedColumns: string[] = ['id', 'name', 'gender', 'contact', 'actions'];
   dataSource = new MatTableDataSource();
 
-  constructor(
-    private ref: ChangeDetectorRef,
-    private router: Router) { }
+  constructor(private router: Router) { }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

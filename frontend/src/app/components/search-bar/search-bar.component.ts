@@ -11,7 +11,7 @@ import { ChaveValor } from '../../models/ChaveValor.model';
 export class SearchBarComponent implements OnInit {
 
   @Input() filter;
-  @Input() searchModeOptions: Array<ChaveValor>;
+  @Input() searchModeOptions: ChaveValor[];
   @Output() searchEvent = new EventEmitter();
 
   constructor() { }

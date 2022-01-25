@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="!!filter && !!searchModeOptions">
   <form class="d-flex justify-content-between" (ngSubmit)="search()">
 
     <mat-form-field>

@@ -20,6 +20,16 @@ describe('SearchBarComponent', () => {
   });
 
   it('should create', () => {
+    component.filter = {};
+    component.filter.searchMode = '';
+    component.searchModeOptions = [];
     expect(component).toBeTruthy();
+  });
+
+  it('search should trigger (@Output searchEvent) when called', () => {
+    spyOn(component.searchEvent, 'emit');
+    fixture.detectChanges();
+    component.search();
+    expect(component.searchEvent.emit).toHaveBeenCalled();
   });
 });

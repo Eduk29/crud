@@ -15,16 +15,16 @@ export class PessoaService {
     this.urlAPI = `${environment.urlApi}/pessoas`;
   }
 
-  listPessoas(): Observable<Array<Pessoa>> {
+  listPessoas(): Observable<Pessoa[]> {
     return this.httpRequest
-      .get<Array<Pessoa>>(this.urlAPI);
+      .get<Pessoa[]>(this.urlAPI);
   }
 
-  listPessoasByFilter(filter: FilterPessoa): Observable<Array<Pessoa>> {
+  listPessoasByFilter(filter: FilterPessoa): Observable<Pessoa[]> {
 
     const { searchMode, searchValue } = filter;
 
     return this.httpRequest
-      .get<Array<Pessoa>>(`${this.urlAPI}?$filter="${searchMode.chave.toLowerCase()}=${searchValue}"`);
+      .get<Pessoa[]>(`${this.urlAPI}?$filter="${searchMode.chave.toLowerCase()}=${searchValue}"`);
   }
 }
