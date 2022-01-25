@@ -9,7 +9,8 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Pessoa } from 'src/app/models/Pessoa.model';
 import { PessoaService } from 'src/app/services/pessoa.service';
 import { Contato } from 'src/app/models/Contato.model';

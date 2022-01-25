@@ -2,7 +2,7 @@
 </app-masthead>
 
 <div class="container my-5">
-  <app-search-bar [filter]="filter" [searchModeOptions]="searchModeOptions" (searchEvent)="search($event)">
+  <app-search-bar [filter]="filter" [searchModeOptions]="searchModeOptions" (searchEvent)="search()">
   </app-search-bar>
 
   <div *ngIf="!!pessoaList" class="my-4">
